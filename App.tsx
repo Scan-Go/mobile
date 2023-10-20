@@ -1,7 +1,8 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { GluestackUIProvider, config } from "@gluestack-ui/themed";
-import Navigator from "@navigator";
+import { config } from "@gluestack-ui/config";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import "react-native-gesture-handler";
+import Navigator from "src/navigator";
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
