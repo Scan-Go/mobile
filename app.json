@@ -1,35 +1,23 @@
 {
   "expo": {
-    "name": "scan-and-go-mobile",
-    "slug": "scan-and-go-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./lib/assets/icon.png",
+    "scheme": "tamagui-app",
     "userInterfaceStyle": "automatic",
-    "platforms": ["ios", "android", "web"],
-    "scheme": "com.muhammedkpln.scanandgo",
     "splash": {
-      "image": "./lib/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ddffe2",
+      "image": "./assets/splash.png",
+      "resizeMode": "contain"
     },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true
+    "web":{
+      "bundler":"metro"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./lib/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./lib/assets/favicon.png",
-      "bundler": "metro"
-    },
+      "softwareKeyboardLayoutMode": "pan"
+  },
+    "icon": "./assets/icon.png",
+    "name": "scan-and-go-mobile",
+    "slug": "scan-and-go-mobile",
     "experiments": {
       "tsconfigPaths": true
-    },
-    "plugins": ["expo-router"]
+    }
   }
 }

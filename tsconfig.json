@@ -1,15 +1,10 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
+    "module": "ES2020",
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./lib/*"
-      ]
+      "@/*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "extends": "expo/tsconfig.base"
 }
