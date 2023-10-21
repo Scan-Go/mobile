@@ -46629,6 +46629,76 @@
           "name": "color-192",
           "val": "hsl(53, 100%, 91.0%)",
           "variable": ""
+        },
+        "primary": {
+          "isVar": true,
+          "key": "$primary",
+          "name": "color-193",
+          "val": "#8370f6",
+          "variable": ""
+        },
+        "secondary": {
+          "isVar": true,
+          "key": "$secondary",
+          "name": "color-194",
+          "val": "#8370f6",
+          "variable": ""
+        },
+        "blue": {
+          "isVar": true,
+          "key": "$blue",
+          "name": "color-195",
+          "val": "#8caeff",
+          "variable": ""
+        },
+        "gray": {
+          "isVar": true,
+          "key": "$gray",
+          "name": "color-196",
+          "val": "#808080",
+          "variable": ""
+        },
+        "green": {
+          "isVar": true,
+          "key": "$green",
+          "name": "color-197",
+          "val": "#008000",
+          "variable": ""
+        },
+        "orange": {
+          "isVar": true,
+          "key": "$orange",
+          "name": "color-198",
+          "val": "#fcc688",
+          "variable": ""
+        },
+        "pink": {
+          "isVar": true,
+          "key": "$pink",
+          "name": "color-199",
+          "val": "#c498f9",
+          "variable": ""
+        },
+        "purple": {
+          "isVar": true,
+          "key": "$purple",
+          "name": "color-200",
+          "val": "#c498f9",
+          "variable": ""
+        },
+        "red": {
+          "isVar": true,
+          "key": "$red",
+          "name": "color-201",
+          "val": "#ff4d4d",
+          "variable": ""
+        },
+        "yellow": {
+          "isVar": true,
+          "key": "$yellow",
+          "name": "color-202",
+          "val": "#c498f9",
+          "variable": ""
         }
       },
       "radius": {
@@ -48835,6 +48905,76 @@
         "key": "$yellow12Dark",
         "name": "color-192",
         "val": "hsl(53, 100%, 91.0%)",
+        "variable": ""
+      },
+      "$color.primary": {
+        "isVar": true,
+        "key": "$primary",
+        "name": "color-193",
+        "val": "#8370f6",
+        "variable": ""
+      },
+      "$color.secondary": {
+        "isVar": true,
+        "key": "$secondary",
+        "name": "color-194",
+        "val": "#8370f6",
+        "variable": ""
+      },
+      "$color.blue": {
+        "isVar": true,
+        "key": "$blue",
+        "name": "color-195",
+        "val": "#8caeff",
+        "variable": ""
+      },
+      "$color.gray": {
+        "isVar": true,
+        "key": "$gray",
+        "name": "color-196",
+        "val": "#808080",
+        "variable": ""
+      },
+      "$color.green": {
+        "isVar": true,
+        "key": "$green",
+        "name": "color-197",
+        "val": "#008000",
+        "variable": ""
+      },
+      "$color.orange": {
+        "isVar": true,
+        "key": "$orange",
+        "name": "color-198",
+        "val": "#fcc688",
+        "variable": ""
+      },
+      "$color.pink": {
+        "isVar": true,
+        "key": "$pink",
+        "name": "color-199",
+        "val": "#c498f9",
+        "variable": ""
+      },
+      "$color.purple": {
+        "isVar": true,
+        "key": "$purple",
+        "name": "color-200",
+        "val": "#c498f9",
+        "variable": ""
+      },
+      "$color.red": {
+        "isVar": true,
+        "key": "$red",
+        "name": "color-201",
+        "val": "#ff4d4d",
+        "variable": ""
+      },
+      "$color.yellow": {
+        "isVar": true,
+        "key": "$yellow",
+        "name": "color-202",
+        "val": "#c498f9",
         "variable": ""
       },
       "$radius.0": {

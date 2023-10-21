@@ -1,91 +1,51 @@
-import { Github, Twitter } from "@tamagui/lucide-icons";
-import { Link, Redirect, useRouter } from "expo-router";
-import {
-  Button,
-  H1,
-  ListItem,
-  Paragraph,
-  Separator,
-  YGroup,
-  YStack
-} from "tamagui";
+import { useAssets } from "expo-asset";
+import { Image, styled, Text, View } from "tamagui";
 
-import { MyStack } from "../components/MyStack";
+import { Button } from "@/components/Button";
+
+const Logo = styled(Image, {
+  marginTop: "$-5",
+  alignSelf: "center",
+  backgroundColor: "white",
+  borderRadius: "$10",
+  p: "$7",
+  source: {}
+});
+
+const LogoBackground = styled(View, {
+  bg: "$primary",
+  height: "$20",
+  borderBottomLeftRadius: 100,
+  borderBottomRightRadius: 100
+});
 
 export default function Home() {
-  const router = useRouter();
+  const [assets] = useAssets([require("@/assets/logo-icon.png")]);
 
-  return <Redirect href="/sign-in" />;
   return (
-    <MyStack>
-      <YStack
-        space="$4"
-        maxWidth={600}
+    <View flex={1}>
+      <LogoBackground />
+
+      {assets ? <Logo source={assets[0]} /> : null}
+
+      <View
+        flex={1}
+        justifyContent="space-around"
       >
-        <H1 textAlign="center">Welcome to Tamagui.</H1>
-        <Paragraph textAlign="center">
-          Here&apos;s a basic starter to show navigating from one screen to
-          another.
-        </Paragraph>
-      </YStack>
-
-      <YStack space="$2.5">
-        <Button onPress={() => router.push("/users/testuser")}>
-          Go to user page
-        </Button>
-        <Button onPress={() => router.push("/tabs")}>Go to tabs page</Button>
-      </YStack>
-
-      <YStack space="$5">
-        <YGroup
-          bordered
-          separator={<Separator />}
-          theme="green"
+        <View
+          alignContent="center"
+          alignItems="center"
         >
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://twitter.com/natebirdman"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                title="Nate"
-                pressTheme
-                icon={Twitter}
-              />
-            </Link>
-          </YGroup.Item>
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://github.com/tamagui/tamagui"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                pressTheme
-                title="Tamagui"
-                icon={Github}
-              />
-            </Link>
-          </YGroup.Item>
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://github.com/ivopr/tamagui-expo"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                pressTheme
-                title="This Template"
-                icon={Github}
-              />
-            </Link>
-          </YGroup.Item>
-        </YGroup>
-      </YStack>
-    </MyStack>
+          <Text fontSize="$10">Scan & Go</Text>
+          <Text>A platform build for a new way of communicating</Text>
+        </View>
+        <Button
+          bg="$secondary"
+          m="$10"
+        >
+          Fortsätt
+        </Button>
+      </View>
+    </View>
   );
 }

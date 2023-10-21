@@ -18,7 +18,7 @@ const CustomKeyboardAvoidingView = styled(KeyboardAvoidingView, {
 });
 
 export default function SignInView() {
-  const [assets, error] = useAssets([require("@/assets/logo.png")]);
+  const [assets] = useAssets([require("@/assets/logo.png")]);
 
   return (
     <View
