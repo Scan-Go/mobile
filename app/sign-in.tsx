@@ -105,6 +105,8 @@ export default function SignInView() {
                       placeholder="hello@gmail.com"
                       autoCapitalize="none"
                       onChangeText={onChange}
+                      autoComplete="email"
+                      autoCorrect={false}
                       onBlur={onBlur}
                       value={value}
                       borderColor={errors.email ? "red" : undefined}
@@ -129,6 +131,7 @@ export default function SignInView() {
                       placeholder="min. 6 characters"
                       id="password"
                       autoCapitalize="none"
+                      autoCorrect={false}
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
