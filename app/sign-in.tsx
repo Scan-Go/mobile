@@ -103,6 +103,7 @@ export default function SignInView() {
                     <CustomInput
                       keyboardType="email-address"
                       placeholder="hello@gmail.com"
+                      autoCapitalize="none"
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -127,6 +128,7 @@ export default function SignInView() {
                       secureTextEntry
                       placeholder="min. 6 characters"
                       id="password"
+                      autoCapitalize="none"
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
