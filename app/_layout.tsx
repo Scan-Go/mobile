@@ -1,16 +1,23 @@
+import { MySafeAreaView } from '../components/MySafeAreaView';
+import config from '../tamagui.config';
+import { Toast } from '@/components/Toast';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
-import { Suspense, useEffect } from "react";
-import { useColorScheme } from "react-native";
-import { TamaguiProvider, Text, Theme } from "tamagui";
+} from '@react-navigation/native';
+import { ToastProvider, ToastViewport } from '@tamagui/toast';
+import { useFonts } from 'expo-font';
+import { SplashScreen, Stack } from 'expo-router';
+import { Suspense, useEffect } from 'react';
+import { useColorScheme } from 'react-native';
+import { TamaguiProvider, Text, Theme } from 'tamagui';
 
-import { MySafeAreaView } from "../components/MySafeAreaView";
-import config from "../tamagui.config";
+const client = new ApolloClient({
+  uri: process.env.EXPO_PUBLIC_API_URL,
+  cache: new InMemoryCache()
+});
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,8 +25,8 @@ export default function Layout() {
   const colorScheme = useColorScheme();
 
   const [loaded] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Regular.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf")
+    Inter: require('@tamagui/font-inter/otf/Inter-Regular.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf')
   });
 
   useEffect(() => {
@@ -31,22 +38,29 @@ export default function Layout() {
   if (!loaded) return null;
 
   return (
-    <TamaguiProvider config={config}>
-      <Suspense fallback={<Text>Loading...</Text>}>
-        <Theme name={colorScheme}>
-          <ThemeProvider
-            value={colorScheme === "light" ? DefaultTheme : DarkTheme}
-          >
-            <MySafeAreaView>
-              <Stack
-                screenOptions={{
-                  headerShown: false
-                }}
-              />
-            </MySafeAreaView>
-          </ThemeProvider>
-        </Theme>
-      </Suspense>
-    </TamaguiProvider>
+    <ApolloProvider client={client}>
+      <TamaguiProvider config={config}>
+        <Suspense fallback={<Text>Loading...</Text>}>
+          <Theme name={colorScheme}>
+            <ThemeProvider
+              value={colorScheme === 'light' ? DefaultTheme : DarkTheme}
+            >
+              <MySafeAreaView>
+                <ToastProvider>
+                  <Stack
+                    screenOptions={{
+                      headerShown: false
+                    }}
+                  />
+
+                  <Toast />
+                  <ToastViewport />
+                </ToastProvider>
+              </MySafeAreaView>
+            </ThemeProvider>
+          </Theme>
+        </Suspense>
+      </TamaguiProvider>
+    </ApolloProvider>
   );
 }
