@@ -1,4 +1,6 @@
 import { useAssets } from "expo-asset";
+import { router } from "expo-router";
+import { useCallback } from "react";
 import { Image, styled, Text, View } from "tamagui";
 
 import { Button } from "@/components/Button";
@@ -22,6 +24,11 @@ const LogoBackground = styled(View, {
 export default function Home() {
   const [assets] = useAssets([require("@/assets/logo-icon.png")]);
 
+  const onPressContiune = useCallback(() => {
+    // Check if email exists, if not contiune to registration
+    router.replace("/sign-in");
+  }, []);
+
   return (
     <View flex={1}>
       <LogoBackground />
@@ -42,6 +49,7 @@ export default function Home() {
         <Button
           bg="$secondary"
           m="$10"
+          onPress={onPressContiune}
         >
           Fortsätt
         </Button>

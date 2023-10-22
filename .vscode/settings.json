@@ -21,5 +21,6 @@
     ".yarn": true,
     "node_modules": true,
     ".tamagui": true
-  }
+  },
+  "docwriter.hotkey.mac": "⌥ + ."
 }
