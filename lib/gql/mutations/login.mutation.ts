@@ -1,3 +1,4 @@
+import { IUser } from '@/lib/models/auth.model';
 import { gql } from '@apollo/client';
 
 export const LoginMutation = gql`
@@ -24,13 +25,6 @@ export type LoginMutationInput = {
 export type LoginMutationOutput = {
   access_token: string;
   refresh_token: string;
-  user: User;
+  user: IUser;
 };
 
-export type User = {
-  id: number;
-  email: string;
-  tel: string;
-  last_name: string;
-  name: string;
-};

@@ -1,7 +1,7 @@
-import { MySafeAreaView } from '../components/MySafeAreaView';
-import config from '../tamagui.config';
 import { Toast } from '@/components/Toast';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { authStorage } from '@/lib/storage/auth.storage';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   DarkTheme,
   DefaultTheme,
@@ -13,11 +13,31 @@ import { SplashScreen, Stack } from 'expo-router';
 import { Suspense, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { TamaguiProvider, Text, Theme } from 'tamagui';
+import { MySafeAreaView } from '../components/MySafeAreaView';
+import config from '../tamagui.config';
+
+
+const httpLink = createHttpLink({
+  uri: process.env.EXPO_PUBLIC_API_URL,
+});
+
+const authLink = setContext(async (_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = await authStorage.getAccessToken()
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 const client = new ApolloClient({
-  uri: process.env.EXPO_PUBLIC_API_URL,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
+
 
 SplashScreen.preventAutoHideAsync();
 

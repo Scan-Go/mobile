@@ -6,10 +6,12 @@ import {
   LoginMutationInput,
   LoginMutationOutput
 } from '@/lib/gql/mutations/login.mutation';
+import { useAuthStore } from '@/lib/stores/auth.store';
 import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useToastController, useToastState } from '@tamagui/toast';
+import { useToastController } from '@tamagui/toast';
 import { useAssets } from 'expo-asset';
+import { router } from 'expo-router';
 import { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform } from 'react-native';
@@ -53,10 +55,9 @@ const signInSchema = yup
 export default function SignInView() {
   const [assets] = useAssets([require('@/assets/logo.png')]);
   const toastController = useToastController();
-  const toast = useToastState();
-
+  const updateUser = useAuthStore((store) => store.login);
   const [loginMutation, gqlData] = useMutation<
-    LoginMutationOutput,
+    {logIn: LoginMutationOutput},
     LoginMutationInput
   >(LoginMutation);
   const {
@@ -76,16 +77,15 @@ export default function SignInView() {
     loginMutation({
       variables: data
     })
-      .then((response) => {
-        console.log(response);
+      .then(async (response) => {
+        await updateUser(response.data.logIn);
         toastController.show('Oldu', {});
+        router.replace('/home');
       })
       .catch((err) => {
         console.log(err);
         toastController.show('Selam');
       });
-
-    // router.replace('/home');
   }, []);
 
   return (
