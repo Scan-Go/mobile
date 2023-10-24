@@ -1,6 +1,6 @@
-import { Divider } from '@/components/Divider';
-import { AppleIcon } from '@/components/icons/AppleIcon';
-import { GoogleIcon } from '@/components/icons/GoogleIcon';
+import { Divider } from '@/lib/components/Divider';
+import { AppleIcon } from '@/lib/components/icons/AppleIcon';
+import { GoogleIcon } from '@/lib/components/icons/GoogleIcon';
 import {
   LoginMutation,
   LoginMutationInput,

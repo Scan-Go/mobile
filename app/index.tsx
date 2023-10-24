@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button';
+import { Button } from '@/lib/components/Button';
 import { useAssets } from 'expo-asset';
 import { router } from 'expo-router';
 import { useCallback } from 'react';

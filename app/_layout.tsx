@@ -1,5 +1,9 @@
 import config from '../tamagui.config';
-import { Toast } from '@/components/Toast';
+import { Toast } from '@/lib/components/Toast';
+import {
+  RefreshTokenMutation,
+  RefreshTokenOutput
+} from '@/lib/gql/mutations/auth/refresh_token.mutation';
 import { authStorage } from '@/lib/storage/auth.storage';
 import {
   ApolloClient,
@@ -16,6 +20,7 @@ import {
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { Suspense, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import {
@@ -28,8 +33,38 @@ const httpLink = createHttpLink({
   uri: process.env.EXPO_PUBLIC_API_URL
 });
 
+export function isRefreshNeeded(token?: string | null) {
+  if (!token) {
+    return { valid: false, needRefresh: true };
+  }
+
+  const decoded = jwt_decode<JwtPayload>(token);
+
+  if (!decoded) {
+    return { valid: false, needRefresh: true };
+  }
+  if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+    return { valid: false, needRefresh: true };
+  }
+  return { valid: true, needRefresh: false };
+}
+
+const refreshAuthToken = async () => {
+  const newToken = await client
+    .mutate<RefreshTokenOutput>({
+      mutation: RefreshTokenMutation
+    })
+    .then(async (res) => {
+      const tokens = res.data?.refreshToken;
+      await authStorage.saveToken(tokens.accessToken, tokens.refreshToken);
+      return tokens.accessToken;
+    });
+
+  return newToken;
+};
+
 const authLink = setContext(async (context, { headers }) => {
-  if (context.operationName === 'refreshAuthToken') {
+  if (context.operationName === 'RefreshToken') {
     const refreshToken = await authStorage.getRefreshToken();
     if (refreshToken) {
       return {
@@ -43,7 +78,20 @@ const authLink = setContext(async (context, { headers }) => {
     }
   }
 
-  const token = await authStorage.getAccessToken();
+  let token = await authStorage.getAccessToken();
+
+  const shouldRefresh = isRefreshNeeded(token);
+
+  console.log(token, shouldRefresh);
+
+  if (token && shouldRefresh.needRefresh) {
+    const refreshPromise = await refreshAuthToken();
+    console.log(refreshPromise);
+    if (shouldRefresh.valid === false) {
+      token = refreshPromise;
+    }
+  }
+
   return {
     headers: {
       ...headers,
