@@ -7,12 +7,12 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain"
     },
-    "web":{
-      "bundler":"metro"
+    "web": {
+      "bundler": "metro"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan"
-  },
+    },
     "icon": "./assets/icon.png",
     "name": "scan-and-go-mobile",
     "slug": "scan-and-go-mobile",

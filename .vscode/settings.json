@@ -1,6 +1,7 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": true,
+    "source.organizeImports": true
   },
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
   "[typescript]": {
@@ -21,5 +22,6 @@
     ".yarn": true,
     "node_modules": true,
     ".tamagui": true
-  }
+  },
+  "docwriter.hotkey.mac": "⌥ + ."
 }
