@@ -79,12 +79,20 @@ export default function SignInView() {
     })
       .then(async (response) => {
         await updateUser(response.data.logIn);
-        toastController.show('Oldu', {});
-        router.replace('/home');
+        toastController.show('Du har loggats in. Vi omdirigerar dig nu.', {
+          toastType: 'success'
+        });
+
+        setTimeout(() => {
+          router.replace('/home');
+        }, 2000);
       })
       .catch((err) => {
         console.log(err);
-        toastController.show('Selam');
+        toastController.show(
+          'Kunde inte logga in, du kanske har felaktiga inloggningsuppgifter?',
+          { toastType: 'error' }
+        );
       });
   }, []);
 

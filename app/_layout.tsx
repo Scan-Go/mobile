@@ -1,4 +1,3 @@
-import { MySafeAreaView } from '../components/MySafeAreaView';
 import config from '../tamagui.config';
 import { Toast } from '@/components/Toast';
 import { authStorage } from '@/lib/storage/auth.storage';
@@ -19,14 +18,18 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { Suspense, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import {
+  SafeAreaView,
+  useSafeAreaInsets
+} from 'react-native-safe-area-context';
 import { TamaguiProvider, Text, Theme } from 'tamagui';
 
 const httpLink = createHttpLink({
   uri: process.env.EXPO_PUBLIC_API_URL
 });
 
-const authLink = setContext(async (_, { request, headers }) => {
-  if (request.operationName === 'refreshAuthToken') {
+const authLink = setContext(async (context, { headers }) => {
+  if (context.operationName === 'refreshAuthToken') {
     const refreshToken = await authStorage.getRefreshToken();
     if (refreshToken) {
       return {
@@ -44,7 +47,7 @@ const authLink = setContext(async (_, { request, headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
+      authorization: token ? `Bearer ${token}` : null
     }
   };
 });
@@ -58,6 +61,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
   const colorScheme = useColorScheme();
+  const { left, top, right } = useSafeAreaInsets();
 
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Regular.otf'),
@@ -80,8 +84,10 @@ export default function Layout() {
             <ThemeProvider
               value={colorScheme === 'light' ? DefaultTheme : DarkTheme}
             >
-              <MySafeAreaView>
-                <ToastProvider>
+              <SafeAreaView>
+                <ToastProvider
+                  duration={Number(process.env.EXPO_PUBLIC_TOAST_DURATION)}
+                >
                   <Stack
                     screenOptions={{
                       headerShown: false
@@ -89,9 +95,13 @@ export default function Layout() {
                   />
 
                   <Toast />
-                  <ToastViewport />
+                  <ToastViewport
+                    top={top + 30}
+                    left={left}
+                    right={right}
+                  />
                 </ToastProvider>
-              </MySafeAreaView>
+              </SafeAreaView>
             </ThemeProvider>
           </Theme>
         </Suspense>

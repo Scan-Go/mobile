@@ -1,8 +1,22 @@
 import { Toast as IToast, useToastState } from '@tamagui/toast';
+import { useMemo } from 'react';
 import { YStack } from 'tamagui';
 
 export const Toast = () => {
   const currentToast = useToastState();
+  const toastBgColor = useMemo(() => {
+    switch (currentToast?.toastType) {
+      case 'error':
+        return '$red';
+      case 'success':
+        return '$green';
+      case 'warning':
+        return '$orange';
+
+      default:
+        return '$blue';
+    }
+  }, [currentToast]);
 
   if (!currentToast || currentToast.isHandledNatively) return null;
   return (
@@ -16,11 +30,14 @@ export const Toast = () => {
       scale={1}
       animation="quick"
       viewportName={currentToast.viewportName}
+      bg={toastBgColor}
     >
       <YStack>
-        <IToast.Title>{currentToast.title}</IToast.Title>
+        <IToast.Title color="white">{currentToast.title}</IToast.Title>
         {!!currentToast.message && (
-          <IToast.Description>{currentToast.message}</IToast.Description>
+          <IToast.Description color="white">
+            {currentToast.message}
+          </IToast.Description>
         )}
       </YStack>
     </IToast>
