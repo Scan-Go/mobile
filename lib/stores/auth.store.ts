@@ -12,7 +12,7 @@ export enum AuthState {
 
 interface AuthStore {
   user?: IUser;
-  authState: AuthState
+  authState: AuthState;
   login: (user: LoginMutationOutput) => Promise<void>;
 }
 
@@ -22,8 +22,8 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       authState: AuthState.None,
       login: async (user) => {
-        console.log(user)
-        await authStorage.saveToken(user.access_token, user.refresh_token)
+        console.log(user);
+        await authStorage.saveToken(user.access_token, user.refresh_token);
 
         set({
           user: user.user,

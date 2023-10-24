@@ -1,6 +1,13 @@
+import { MySafeAreaView } from '../components/MySafeAreaView';
+import config from '../tamagui.config';
 import { Toast } from '@/components/Toast';
 import { authStorage } from '@/lib/storage/auth.storage';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import {
   DarkTheme,
@@ -13,31 +20,39 @@ import { SplashScreen, Stack } from 'expo-router';
 import { Suspense, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { TamaguiProvider, Text, Theme } from 'tamagui';
-import { MySafeAreaView } from '../components/MySafeAreaView';
-import config from '../tamagui.config';
-
 
 const httpLink = createHttpLink({
-  uri: process.env.EXPO_PUBLIC_API_URL,
+  uri: process.env.EXPO_PUBLIC_API_URL
 });
 
-const authLink = setContext(async (_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = await authStorage.getAccessToken()
-  // return the headers to the context so httpLink can read them
+const authLink = setContext(async (_, { request, headers }) => {
+  if (request.operationName === 'refreshAuthToken') {
+    const refreshToken = await authStorage.getRefreshToken();
+    if (refreshToken) {
+      return {
+        headers: {
+          ...headers,
+          authorization: `Bearer ${refreshToken}`
+        }
+      };
+    } else {
+      return { headers };
+    }
+  }
+
+  const token = await authStorage.getAccessToken();
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : ''
     }
-  }
+  };
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
-
 
 SplashScreen.preventAutoHideAsync();
 

@@ -1,4 +1,4 @@
-import { Text, View } from "tamagui";
+import { Text, View } from 'tamagui';
 
 interface IProps {
   children: string;

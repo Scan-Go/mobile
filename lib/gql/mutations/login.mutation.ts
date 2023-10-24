@@ -19,7 +19,7 @@ export const LoginMutation = gql`
 
 export type LoginMutationInput = {
   email: string;
-  password: String;
+  password: string;
 };
 
 export type LoginMutationOutput = {
@@ -27,4 +27,3 @@ export type LoginMutationOutput = {
   refresh_token: string;
   user: IUser;
 };
-

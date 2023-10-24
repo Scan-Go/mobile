@@ -57,7 +57,7 @@ export default function SignInView() {
   const toastController = useToastController();
   const updateUser = useAuthStore((store) => store.login);
   const [loginMutation, gqlData] = useMutation<
-    {logIn: LoginMutationOutput},
+    { logIn: LoginMutationOutput },
     LoginMutationInput
   >(LoginMutation);
   const {

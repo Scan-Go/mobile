@@ -1,32 +1,31 @@
-import { useAssets } from "expo-asset";
-import { router } from "expo-router";
-import { useCallback } from "react";
-import { Image, styled, Text, View } from "tamagui";
-
-import { Button } from "@/components/Button";
+import { Button } from '@/components/Button';
+import { useAssets } from 'expo-asset';
+import { router } from 'expo-router';
+import { useCallback } from 'react';
+import { Image, styled, Text, View } from 'tamagui';
 
 const Logo = styled(Image, {
-  marginTop: "$-5",
-  alignSelf: "center",
-  backgroundColor: "white",
-  borderRadius: "$10",
-  p: "$7",
+  marginTop: '$-5',
+  alignSelf: 'center',
+  backgroundColor: 'white',
+  borderRadius: '$10',
+  p: '$7',
   source: {}
 });
 
 const LogoBackground = styled(View, {
-  bg: "$primary",
-  height: "$20",
+  bg: '$primary',
+  height: '$20',
   borderBottomLeftRadius: 100,
   borderBottomRightRadius: 100
 });
 
 export default function Home() {
-  const [assets] = useAssets([require("@/assets/logo-icon.png")]);
+  const [assets] = useAssets([require('@/assets/logo-icon.png')]);
 
   const onPressContiune = useCallback(() => {
     // Check if email exists, if not contiune to registration
-    router.replace("/sign-in");
+    router.replace('/sign-in');
   }, []);
 
   return (

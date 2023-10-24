@@ -1,6 +1,7 @@
-import * as React from "react";
+import * as React from 'react';
+
 /* SVGR has dropped some elements not supported by react-native-svg: title */
-import Svg, { G, Path, SvgProps } from "react-native-svg";
+import Svg, { G, Path, SvgProps } from 'react-native-svg';
 
 const _GoogleIcon = (props: SvgProps) => (
   <Svg
