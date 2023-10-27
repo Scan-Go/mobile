@@ -1,18 +1,14 @@
 import { Divider } from '@/lib/components/Divider';
 import { AppleIcon } from '@/lib/components/icons/AppleIcon';
 import { GoogleIcon } from '@/lib/components/icons/GoogleIcon';
-import {
-  LoginMutation,
-  LoginMutationInput,
-  LoginMutationOutput
-} from '@/lib/gql/mutations/login.mutation';
+import { LoginMutationInput } from '@/lib/gql/mutations/login.mutation';
+import { supabase } from '@/lib/services/supabase';
 import { useAuthStore } from '@/lib/stores/auth.store';
-import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useToastController } from '@tamagui/toast';
 import { useAssets } from 'expo-asset';
 import { router } from 'expo-router';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import {
@@ -23,6 +19,7 @@ import {
   Spinner,
   Text,
   View,
+  XStack,
   YStack,
   styled
 } from 'tamagui';
@@ -53,13 +50,12 @@ const signInSchema = yup
   .required();
 
 export default function SignInView() {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [assets] = useAssets([require('@/assets/logo.png')]);
   const toastController = useToastController();
   const updateUser = useAuthStore((store) => store.login);
-  const [loginMutation, gqlData] = useMutation<
-    { logIn: LoginMutationOutput },
-    LoginMutationInput
-  >(LoginMutation);
+
   const {
     control,
     handleSubmit,
@@ -73,27 +69,71 @@ export default function SignInView() {
     }
   });
 
-  const onSubmit = useCallback((data: LoginMutationInput) => {
-    loginMutation({
-      variables: data
-    })
-      .then(async (response) => {
-        await updateUser(response.data.logIn);
+  const onSubmit = useCallback(
+    async (data: LoginMutationInput, showToasts: boolean = true) => {
+      setIsLoggingIn(true);
+
+      const response = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password
+      });
+
+      if (response.error) {
+        if (showToasts) {
+          toastController.show(
+            'Kunde inte logga in, du kanske har felaktiga inloggningsuppgifter?',
+            { toastType: 'error' }
+          );
+        }
+
+        setIsLoggingIn(false);
+        return;
+      }
+
+      await updateUser(response.data.user);
+
+      if (showToasts) {
         toastController.show('Du har loggats in. Vi omdirigerar dig nu.', {
           toastType: 'success'
         });
+      }
 
-        setTimeout(() => {
-          router.replace('/home');
-        }, 2000);
-      })
-      .catch((err) => {
-        console.log(err);
-        toastController.show(
-          'Kunde inte logga in, du kanske har felaktiga inloggningsuppgifter?',
-          { toastType: 'error' }
-        );
-      });
+      setIsLoggingIn(false);
+
+      setTimeout(() => {
+        router.replace('/home');
+      }, 2000);
+    },
+    []
+  );
+
+  const onRegister = useCallback(async (data: LoginMutationInput) => {
+    setIsRegistering(true);
+    const response = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          first_name: null,
+          last_name: null
+        }
+      }
+    });
+
+    if (response.error) {
+      console.log(response.error)
+      setIsRegistering(false);
+      toastController.show(
+        'Kunde inte registrera dig, du kanske har redan ett konto hos oss?',
+        { toastType: 'error' }
+      );
+
+      return;
+    }
+
+    await onSubmit(data, false);
+
+    setIsRegistering(false);
   }, []);
 
   return (
@@ -176,13 +216,24 @@ export default function SignInView() {
                 )}
               />
             </View>
-            <Button
-              bg="$orange8Light"
-              onPress={!gqlData.loading && handleSubmit(onSubmit)}
-              icon={gqlData.loading && <Spinner size="small" />}
-            >
-              <Text color="white">Logga in</Text>
-            </Button>
+
+            <XStack justifyContent="space-around">
+              <Button
+                variant="outlined"
+                onPress={!isLoggingIn && handleSubmit((data) => onSubmit(data))}
+                icon={isLoggingIn && <Spinner size="small" />}
+              >
+                <Text>Logga in</Text>
+              </Button>
+
+              <Button
+                bg="$primary"
+                onPress={!isRegistering && handleSubmit(onRegister)}
+                icon={isRegistering && <Spinner size="small" />}
+              >
+                <Text color="white">Registrera dig</Text>
+              </Button>
+            </XStack>
           </YStack>
         </CustomKeyboardAvoidingView>
 

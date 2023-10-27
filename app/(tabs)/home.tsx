@@ -1,24 +1,54 @@
-import {
-  FetchNotesOutput,
-  FetchNotesQuery
-} from '@/lib/gql/queries/notes.query';
-import { useQuery } from '@apollo/client';
-import { Spinner, Text } from 'tamagui';
+import { supabase } from '@/lib/services/supabase';
+import { Database } from '@/lib/typedefs/database.types';
+import { useToastController } from '@tamagui/toast';
+import { useCallback, useEffect, useState } from 'react';
+import { RefreshControl, Text } from 'react-native';
+import { Spinner } from 'tamagui';
 
 export default function Home() {
-  const gqlQuery = useQuery<FetchNotesOutput>(FetchNotesQuery);
+  const [notes, setNotes] = useState<
+    Database['public']['Tables']['note']['Row'][]
+  >([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const toastController = useToastController();
 
-  if (gqlQuery.loading) {
+  const fetchNotes = useCallback(() => {
+    supabase
+      .from('note')
+      .select('*')
+      .then((response) => {
+        if (response.error) {
+          toastController.show('Kunde inte nå notes', { toastType: 'error' });
+          return;
+        }
+
+        setNotes(response.data);
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
+
+  if (isLoading) {
     return <Spinner size="large" />;
   }
 
-  if (gqlQuery.data.fetchNotes.length < 1) {
-    return <Text>No new note</Text>;
+  if (notes.length < 1) {
+    return (
+      <RefreshControl
+        onRefresh={fetchNotes}
+        refreshing={isLoading}
+      >
+        <Text>No new note</Text>
+      </RefreshControl>
+    );
   }
 
   return (
     <>
-      {gqlQuery.data.fetchNotes.map((note) => (
+      {notes.map((note) => (
         <Text key={note.id}>{note.content}</Text>
       ))}
     </>

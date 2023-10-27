@@ -1,7 +1,5 @@
-import { LoginMutationOutput } from '@/lib/gql/mutations/login.mutation';
-import { IUser } from '@/lib/models/auth.model';
-import { authStorage } from '@/lib/storage/auth.storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -11,9 +9,9 @@ export enum AuthState {
 }
 
 interface AuthStore {
-  user?: IUser;
+  user?: User;
   authState: AuthState;
-  login: (user: LoginMutationOutput) => Promise<void>;
+  login: (user: User) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -22,11 +20,8 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       authState: AuthState.None,
       login: async (user) => {
-        console.log(user);
-        await authStorage.saveToken(user.access_token, user.refresh_token);
-
         set({
-          user: user.user,
+          user,
           authState: AuthState.LoggedIn
         });
       }

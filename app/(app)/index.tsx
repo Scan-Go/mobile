@@ -1,8 +1,10 @@
 import { Button } from '@/lib/components/Button';
+import { useSession } from '@/lib/context/auth.context';
+import { AuthState } from '@/lib/stores/auth.store';
 import { useAssets } from 'expo-asset';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useCallback } from 'react';
-import { Image, styled, Text, View } from 'tamagui';
+import { Image, Text, View, styled } from 'tamagui';
 
 const Logo = styled(Image, {
   marginTop: '$-5',
@@ -22,6 +24,12 @@ const LogoBackground = styled(View, {
 
 export default function Home() {
   const [assets] = useAssets([require('@/assets/logo-icon.png')]);
+  const { authState } = useSession()
+
+  if (authState === AuthState.LoggedIn) {
+    return <Redirect href="/home"/>
+  }
+
 
   const onPressContiune = useCallback(() => {
     // Check if email exists, if not contiune to registration
