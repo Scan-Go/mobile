@@ -1,5 +1,5 @@
-import React from 'react';
 import { AuthState, useAuthStore } from '../stores/auth.store';
+import React from 'react';
 
 interface IAuthContext {
   authState: AuthState;

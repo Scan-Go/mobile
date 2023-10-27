@@ -24,12 +24,11 @@ const LogoBackground = styled(View, {
 
 export default function Home() {
   const [assets] = useAssets([require('@/assets/logo-icon.png')]);
-  const { authState } = useSession()
+  const { authState } = useSession();
 
   if (authState === AuthState.LoggedIn) {
-    return <Redirect href="/home"/>
+    return <Redirect href="/home" />;
   }
-
 
   const onPressContiune = useCallback(() => {
     // Check if email exists, if not contiune to registration

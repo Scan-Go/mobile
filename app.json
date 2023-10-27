@@ -18,6 +18,8 @@
     "slug": "scan-and-go-mobile",
     "experiments": {
       "tsconfigPaths": true
-    }
-  }
+    },
+    "sdkVersion": "49.0.0"
+  },
+  "name": "scan-and-go-mobile"
 }

@@ -70,7 +70,7 @@ export default function SignInView() {
   });
 
   const onSubmit = useCallback(
-    async (data: LoginMutationInput, showToasts: boolean = true) => {
+    async (data: LoginMutationInput, showToasts = true) => {
       setIsLoggingIn(true);
 
       const response = await supabase.auth.signInWithPassword({
@@ -121,7 +121,7 @@ export default function SignInView() {
     });
 
     if (response.error) {
-      console.log(response.error)
+      console.log(response.error);
       setIsRegistering(false);
       toastController.show(
         'Kunde inte registrera dig, du kanske har redan ett konto hos oss?',

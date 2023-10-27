@@ -29,6 +29,8 @@ export default function Home() {
 
   useEffect(() => {
     fetchNotes();
+
+    toastController.show('selam');
   }, [fetchNotes]);
 
   if (isLoading) {
