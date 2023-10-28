@@ -45,7 +45,7 @@ class AuthStorage {
 
   async getRefreshToken() {
     if (!this.isMobile) {
-      return await this.getWebAccessToken();
+      return await this.getWebRefreshToken();
     }
 
     return await SecureStore.getItemAsync(AuthStorageKey.RefreshToken);

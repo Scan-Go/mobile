@@ -1,56 +1,157 @@
+import { SafeAreaV } from '@/lib/components/SafeAreaView';
 import { Toast } from '@/lib/components/Toast';
 import { SessionProvider } from '@/lib/context/auth.context';
+import {
+  RefreshTokenMutation,
+  RefreshTokenOutput
+} from '@/lib/gql/mutations/auth/refresh_token.mutation';
+import { authStorage } from '@/lib/storage/auth.storage';
 import config from '@/tamagui.config';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
 } from '@react-navigation/native';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
-import { Slot } from 'expo-router';
-import React, { Suspense } from 'react';
-import { useColorScheme } from 'react-native';
+import { useFonts } from 'expo-font';
+import { Slot, SplashScreen } from 'expo-router';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
+import React, { Suspense, useEffect } from 'react';
+import { Text, useColorScheme } from 'react-native';
 import {
   SafeAreaProvider,
-  SafeAreaView,
   useSafeAreaInsets
 } from 'react-native-safe-area-context';
-import { TamaguiProvider, Text, Theme, styled } from 'tamagui';
+import { TamaguiProvider, Theme } from 'tamagui';
 
-export const MySafeAreaView = styled(SafeAreaView, {
-  name: 'MySafeAreaView',
-  flex: 1,
-  backgroundColor: '$background'
+SplashScreen.preventAutoHideAsync();
+
+const httpLink = createHttpLink({
+  uri: process.env.EXPO_PUBLIC_API_URL
+});
+
+export function isRefreshNeeded(token?: string | null) {
+  if (!token) {
+    return { valid: false, needRefresh: true };
+  }
+
+  const decoded = jwtDecode<JwtPayload>(token);
+
+  if (!decoded) {
+    return { valid: false, needRefresh: true };
+  }
+  if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+    return { valid: false, needRefresh: true };
+  }
+  return { valid: true, needRefresh: false };
+}
+
+const refreshAuthToken = async () => {
+  const newToken = await client
+    .mutate<RefreshTokenOutput>({
+      mutation: RefreshTokenMutation
+    })
+    .then(async (res) => {
+      const tokens = res.data?.refreshToken;
+      await authStorage.saveToken(tokens.accessToken, tokens.refreshToken);
+      return tokens.accessToken;
+    });
+
+  return newToken;
+};
+
+const authLink = setContext(async (context, { headers }) => {
+  if (context.operationName === 'RefreshToken') {
+    const refreshToken = await authStorage.getRefreshToken();
+    if (refreshToken) {
+      return {
+        headers: {
+          ...headers,
+          authorization: `Bearer ${refreshToken}`
+        }
+      };
+    } else {
+      return { headers };
+    }
+  }
+
+  let token = await authStorage.getAccessToken();
+
+  const shouldRefresh = isRefreshNeeded(token);
+
+  console.log(token, shouldRefresh);
+
+  if (token && shouldRefresh.needRefresh) {
+    const refreshPromise = await refreshAuthToken();
+    console.log(refreshPromise);
+    if (shouldRefresh.valid === false) {
+      token = refreshPromise;
+    }
+  }
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null
+    }
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
 });
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const { left, top, right } = useSafeAreaInsets();
 
+  const [loaded] = useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Regular.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf')
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) return null;
+
   return (
     <SafeAreaProvider>
       <TamaguiProvider config={config}>
         <Suspense fallback={<Text>Loading...</Text>}>
           <Theme name={colorScheme}>
-            <MySafeAreaView>
+            <SafeAreaV>
               <ThemeProvider
                 value={colorScheme === 'light' ? DefaultTheme : DarkTheme}
               >
                 <ToastProvider
                   duration={Number(process.env.EXPO_PUBLIC_TOAST_DURATION)}
                 >
-                  <SessionProvider>
-                    <Slot />
-                    <Toast />
-                    <ToastViewport
-                      top={top + 30}
-                      left={left}
-                      right={right}
-                    />
-                  </SessionProvider>
+                  <ApolloProvider client={client}>
+                    <SessionProvider>
+                      <Slot />
+                      <Toast />
+                      <ToastViewport
+                        top={top + 30}
+                        left={left}
+                        right={right}
+                      />
+                    </SessionProvider>
+                  </ApolloProvider>
                 </ToastProvider>
               </ThemeProvider>
-            </MySafeAreaView>
+            </SafeAreaV>
           </Theme>
         </Suspense>
       </TamaguiProvider>

@@ -1,14 +1,23 @@
 import { Divider } from '@/lib/components/Divider';
 import { AppleIcon } from '@/lib/components/icons/AppleIcon';
 import { GoogleIcon } from '@/lib/components/icons/GoogleIcon';
-import { LoginMutationInput } from '@/lib/gql/mutations/login.mutation';
-import { supabase } from '@/lib/services/supabase';
+import {
+  RegisterMutation,
+  RegisterMutationInput,
+  RegisterMutationOutput
+} from '@/lib/gql/mutations/auth/register.mutation';
+import {
+  LoginMutation,
+  LoginMutationInput,
+  LoginMutationOutput
+} from '@/lib/gql/mutations/login.mutation';
 import { useAuthStore } from '@/lib/stores/auth.store';
+import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useToastController } from '@tamagui/toast';
 import { useAssets } from 'expo-asset';
 import { router } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import {
@@ -50,12 +59,17 @@ const signInSchema = yup
   .required();
 
 export default function SignInView() {
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
   const [assets] = useAssets([require('@/assets/logo.png')]);
   const toastController = useToastController();
   const updateUser = useAuthStore((store) => store.login);
-
+  const [loginMutation, loginData] = useMutation<
+    { logIn: LoginMutationOutput },
+    LoginMutationInput
+  >(LoginMutation);
+  const [registerMutation, registerData] = useMutation<
+    RegisterMutationOutput,
+    RegisterMutationInput
+  >(RegisterMutation);
   const {
     control,
     handleSubmit,
@@ -71,69 +85,48 @@ export default function SignInView() {
 
   const onSubmit = useCallback(
     async (data: LoginMutationInput, showToasts = true) => {
-      setIsLoggingIn(true);
+      loginMutation({
+        variables: data
+      })
+        .then(async (response) => {
+          await updateUser(response.data.logIn);
 
-      const response = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password
-      });
+          if (showToasts) {
+            toastController.show('Du har loggats in. Vi omdirigerar dig nu.', {
+              toastType: 'success'
+            });
+          }
 
-      if (response.error) {
-        if (showToasts) {
-          toastController.show(
-            'Kunde inte logga in, du kanske har felaktiga inloggningsuppgifter?',
-            { toastType: 'error' }
-          );
-        }
-
-        setIsLoggingIn(false);
-        return;
-      }
-
-      await updateUser(response.data.user);
-
-      if (showToasts) {
-        toastController.show('Du har loggats in. Vi omdirigerar dig nu.', {
-          toastType: 'success'
+          setTimeout(() => {
+            router.replace('/home');
+          }, 2000);
+        })
+        .catch(() => {
+          if (showToasts) {
+            toastController.show(
+              'Kunde inte logga in, du kanske har felaktiga inloggningsuppgifter?',
+              { toastType: 'error' }
+            );
+          }
         });
-      }
-
-      setIsLoggingIn(false);
-
-      setTimeout(() => {
-        router.replace('/home');
-      }, 2000);
     },
     []
   );
 
-  const onRegister = useCallback(async (data: LoginMutationInput) => {
-    setIsRegistering(true);
-    const response = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          first_name: null,
-          last_name: null
-        }
-      }
-    });
-
-    if (response.error) {
-      console.log(response.error);
-      setIsRegistering(false);
-      toastController.show(
-        'Kunde inte registrera dig, du kanske har redan ett konto hos oss?',
-        { toastType: 'error' }
-      );
-
-      return;
-    }
-
-    await onSubmit(data, false);
-
-    setIsRegistering(false);
+  const onRegister = useCallback(async (data: RegisterMutationInput) => {
+    registerMutation({
+      variables: data
+    })
+      .then(async () => {
+        await onSubmit(data, false);
+      })
+      .catch((err) => {
+        console.log(err);
+        toastController.show(
+          'Kunde inte registrera dig, du kanske har redan ett konto hos oss?',
+          { toastType: 'error' }
+        );
+      });
   }, []);
 
   return (
@@ -220,16 +213,18 @@ export default function SignInView() {
             <XStack justifyContent="space-around">
               <Button
                 variant="outlined"
-                onPress={!isLoggingIn && handleSubmit((data) => onSubmit(data))}
-                icon={isLoggingIn && <Spinner size="small" />}
+                onPress={
+                  !loginData.loading && handleSubmit((data) => onSubmit(data))
+                }
+                icon={loginData.loading && <Spinner size="small" />}
               >
                 <Text>Logga in</Text>
               </Button>
 
               <Button
                 bg="$primary"
-                onPress={!isRegistering && handleSubmit(onRegister)}
-                icon={isRegistering && <Spinner size="small" />}
+                onPress={!registerData.loading && handleSubmit(onRegister)}
+                icon={registerData.loading && <Spinner size="small" />}
               >
                 <Text color="white">Registrera dig</Text>
               </Button>
