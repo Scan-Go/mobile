@@ -1,8 +1,10 @@
+import { IUser } from '../models/auth.model';
 import { AuthState, useAuthStore } from '../stores/auth.store';
 import React from 'react';
 
 interface IAuthContext {
   authState: AuthState;
+  user: IUser;
 }
 
 const AuthContext = React.createContext<IAuthContext>(null);
@@ -21,11 +23,13 @@ export function useSession() {
 
 export function SessionProvider(props: React.PropsWithChildren) {
   const authState = useAuthStore((state) => state.authState);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <AuthContext.Provider
       value={{
-        authState
+        authState,
+        user
       }}
     >
       {props.children}

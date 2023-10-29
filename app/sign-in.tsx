@@ -1,6 +1,7 @@
 import { Divider } from '@/lib/components/Divider';
 import { AppleIcon } from '@/lib/components/icons/AppleIcon';
 import { GoogleIcon } from '@/lib/components/icons/GoogleIcon';
+import { useSession } from '@/lib/context/auth.context';
 import {
   RegisterMutation,
   RegisterMutationInput,
@@ -11,12 +12,12 @@ import {
   LoginMutationInput,
   LoginMutationOutput
 } from '@/lib/gql/mutations/login.mutation';
-import { useAuthStore } from '@/lib/stores/auth.store';
+import { AuthState, useAuthStore } from '@/lib/stores/auth.store';
 import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useToastController } from '@tamagui/toast';
 import { useAssets } from 'expo-asset';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform } from 'react-native';
@@ -28,14 +29,15 @@ import {
   Spinner,
   Text,
   View,
-  XStack,
   YStack,
   styled
 } from 'tamagui';
 import * as yup from 'yup';
 
 const CustomInput = styled(Input, {
-  borderRadius: '$10'
+  borderRadius: '$10',
+  borderWidth: 0,
+  bg: '$backgroundFocus'
 });
 
 const CustomKeyboardAvoidingView = styled(KeyboardAvoidingView, {
@@ -60,6 +62,7 @@ const signInSchema = yup
 
 export default function SignInView() {
   const [assets] = useAssets([require('@/assets/logo.png')]);
+  const { authState } = useSession();
   const toastController = useToastController();
   const updateUser = useAuthStore((store) => store.login);
   const [loginMutation, loginData] = useMutation<
@@ -129,6 +132,10 @@ export default function SignInView() {
       });
   }, []);
 
+  if (authState === AuthState.LoggedIn) {
+    return <Redirect href="/home" />;
+  }
+
   return (
     <View
       p={20}
@@ -143,12 +150,7 @@ export default function SignInView() {
             m="$10"
           >
             {assets ? <Image source={assets[0]} /> : null}
-            <Text
-              fontWeight="bold"
-              fontSize="$5"
-            >
-              Scan & Go
-            </Text>
+            <Text fontFamily="$body">Scan & Go</Text>
           </View>
 
           <YStack gap="$3">
@@ -210,25 +212,22 @@ export default function SignInView() {
               />
             </View>
 
-            <XStack justifyContent="space-around">
-              <Button
-                variant="outlined"
-                onPress={
-                  !loginData.loading && handleSubmit((data) => onSubmit(data))
-                }
-                icon={loginData.loading && <Spinner size="small" />}
-              >
-                <Text>Logga in</Text>
-              </Button>
+            <Button
+              variant="outlined"
+              onPress={
+                !loginData.loading && handleSubmit((data) => onSubmit(data))
+              }
+              icon={loginData.loading && <Spinner size="small" />}
+            >
+              <Text>Logga in</Text>
+            </Button>
 
-              <Button
-                bg="$primary"
-                onPress={!registerData.loading && handleSubmit(onRegister)}
-                icon={registerData.loading && <Spinner size="small" />}
-              >
-                <Text color="white">Registrera dig</Text>
-              </Button>
-            </XStack>
+            <Button
+              onPress={!registerData.loading && handleSubmit(onRegister)}
+              icon={registerData.loading && <Spinner size="small" />}
+            >
+              <Text>Registrera dig</Text>
+            </Button>
           </YStack>
         </CustomKeyboardAvoidingView>
 

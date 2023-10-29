@@ -14,6 +14,7 @@ interface AuthStore {
   user?: IUser;
   authState: AuthState;
   login: (user: LoginMutationOutput) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -28,8 +29,17 @@ export const useAuthStore = create<AuthStore>()(
           user: user.user,
           authState: AuthState.LoggedIn
         });
+      },
+      logout: async () => {
+        await authStorage.clean();
+
+        set({
+          user: null,
+          authState: AuthState.None
+        });
       }
     }),
+
     {
       name: 'auth-store',
       storage: createJSONStorage(() => AsyncStorage)

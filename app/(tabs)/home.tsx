@@ -3,7 +3,6 @@ import {
   FetchNotesQuery
 } from '@/lib/gql/queries/notes.query';
 import { useQuery } from '@apollo/client';
-import { Redirect } from 'expo-router';
 import { Spinner, Text } from 'tamagui';
 
 export default function Home() {
@@ -17,7 +16,7 @@ export default function Home() {
     return <Text>No new note</Text>;
   }
   // TODO: REMOVE
-  return <Redirect href="/tag/232" />;
+  // return <Redirect href="/tag/232" />;
 
   // return (
   //   <>

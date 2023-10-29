@@ -23,8 +23,8 @@ import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import React, { Suspense, useEffect } from 'react';
-import { Text, useColorScheme } from 'react-native';
+import React, { Suspense, useCallback } from 'react';
+import { Text, View, useColorScheme } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets
@@ -114,13 +114,14 @@ export default function RootLayout() {
   const { left, top, right } = useSafeAreaInsets();
 
   const [loaded] = useFonts({
-    Inter: require('@tamagui/font-inter/otf/Inter-Regular.otf'),
-    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf')
+    SourceSans: require('@/assets/fonts/SourceSans3-Regular.ttf'),
+    'SourceSans-Bold': require('@/assets/fonts/SourceSans3-Bold.ttf'),
+    'SourceSans-Semibold': require('@/assets/fonts/SourceSans3-SemiBold.ttf')
   });
 
-  useEffect(() => {
+  const onLayoutRootView = useCallback(async () => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      await SplashScreen.hideAsync();
     }
   }, [loaded]);
 
@@ -140,7 +141,12 @@ export default function RootLayout() {
                 >
                   <ApolloProvider client={client}>
                     <SessionProvider>
-                      <Slot />
+                      <View
+                        style={{ flex: 1 }}
+                        onLayout={onLayoutRootView}
+                      >
+                        <Slot />
+                      </View>
                       <Toast />
                       <ToastViewport
                         top={top + 30}

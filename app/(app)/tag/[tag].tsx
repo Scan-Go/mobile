@@ -40,7 +40,7 @@ export default function selam() {
   }, []);
 
   return (
-    <BackgroundView colors={['#4b4187', '#312675']}>
+    <BackgroundView colors={['#FE7949', '#312675']}>
       <StatusBar
         barStyle="dark-content"
         animated={true}

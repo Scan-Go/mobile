@@ -50,6 +50,21 @@ class AuthStorage {
 
     return await SecureStore.getItemAsync(AuthStorageKey.RefreshToken);
   }
+
+  private async cleanWeb() {
+    return await AsyncStorage.clear();
+  }
+
+  async clean() {
+    if (!this.isMobile) {
+      return await this.cleanWeb();
+    }
+
+    return await Promise.all([
+      SecureStore.deleteItemAsync(AuthStorageKey.AccessToken),
+      SecureStore.deleteItemAsync(AuthStorageKey.RefreshToken)
+    ]);
+  }
 }
 
 export const authStorage = new AuthStorage();
