@@ -1,5 +1,5 @@
-import { Button } from '@/lib/components/Button';
-import { PopOver } from '@/lib/components/Popover';
+import { Button } from '@lib/components/Button';
+import { PopOver } from '@lib/components/Popover';
 import { Send, StickyNote } from '@tamagui/lucide-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';

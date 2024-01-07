@@ -1,28 +1,34 @@
-import {
-  FetchNotesOutput,
-  FetchNotesQuery
-} from '@/lib/gql/queries/notes.query';
-import { useQuery } from '@apollo/client';
-import { Spinner, Text } from 'tamagui';
+import { Collections } from '@lib/firebase/models';
+import { INote } from '@lib/firebase/models/note.model';
+import useCollection from '@lib/hooks/useCollection';
+import { useEffect, useState } from 'react';
+import { Text } from 'tamagui';
 
 export default function Home() {
-  const gqlQuery = useQuery<FetchNotesOutput>(FetchNotesQuery);
+  const { collection } = useCollection<INote>(Collections.Notes);
+  const [data, setData] = useState<INote[]>([]);
 
-  if (gqlQuery.loading) {
-    return <Spinner size="large" />;
-  }
+  useEffect(() => {
+    async function getMarker() {
+      const snapshot = await collection.get();
 
-  if (gqlQuery.data?.fetchNotes.length < 1) {
+      const s = snapshot.docs.map((doc) => doc.data());
+
+      setData(s);
+    }
+
+    getMarker();
+  }, []);
+
+  if (data.length < 1) {
     return <Text>No new note</Text>;
   }
-  // TODO: REMOVE
-  // return <Redirect href="/tag/232" />;
 
-  // return (
-  //   <>
-  //     {gqlQuery.data.fetchNotes.map((note) => (
-  //       <Text key={note.id}>{note.content}</Text>
-  //     ))}
-  //   </>
-  // );
+  return (
+    <>
+      {data.map((note) => (
+        <Text key={note.title}>{note.content}</Text>
+      ))}
+    </>
+  );
 }

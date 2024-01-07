@@ -1,6 +1,6 @@
-import { Button } from '@/lib/components/Button';
-import { Text } from '@/lib/components/Text';
-import { useSession } from '@/lib/context/auth.context';
+import { Button } from '@lib/components/Button';
+import { Text } from '@lib/components/Text';
+import useSession from '@lib/hooks/useSession';
 import { ChevronRight } from '@tamagui/lucide-icons';
 import { useNavigation } from 'expo-router';
 import { useLayoutEffect, useMemo } from 'react';
@@ -8,15 +8,15 @@ import { SectionList } from 'react-native';
 import { Image, ListItem, YStack } from 'tamagui';
 
 export default function ProfileView() {
-  const { user } = useSession();
+  const { currentUser } = useSession();
   const navigation = useNavigation();
   const userName = useMemo(() => {
-    if (user.name && user.last_name) {
-      return `${user.name} ${user.last_name}`;
+    if (currentUser?.displayName) {
+      return currentUser.displayName;
     }
 
     return 'Namn ej angivet';
-  }, [user]);
+  }, [currentUser]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -71,7 +71,7 @@ export default function ProfileView() {
             color="$gray10Light"
             fontSize={13}
           >
-            {user.email}
+            {currentUser?.email}
           </Text>
 
           <Button

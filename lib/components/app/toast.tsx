@@ -2,19 +2,19 @@ import { Toast as IToast, useToastState } from '@tamagui/toast';
 import { useMemo } from 'react';
 import { YStack } from 'tamagui';
 
-export const Toast = () => {
+const Toast = () => {
   const currentToast = useToastState();
   const toastBgColor = useMemo(() => {
     switch (currentToast?.toastType) {
       case 'error':
-        return '$red';
+        return 'red';
       case 'success':
-        return '$green';
+        return 'green';
       case 'warning':
-        return '$orange';
+        return 'orange';
 
       default:
-        return '$blue';
+        return 'blue';
     }
   }, [currentToast]);
 
@@ -43,3 +43,5 @@ export const Toast = () => {
     </IToast>
   );
 };
+
+export default Toast;
