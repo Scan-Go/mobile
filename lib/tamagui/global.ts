@@ -1,7 +1,7 @@
-import { AppConfig } from '@lib/tamagui/config';
+import { Conf } from '@lib/tamagui/config';
 
 declare module 'tamagui' {
-  interface TamaguiCustomConfig extends AppConfig {}
+  interface TamaguiCustomConfig extends Conf {}
 }
 
 declare module '@tamagui/toast' {

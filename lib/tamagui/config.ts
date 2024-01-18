@@ -34,7 +34,9 @@ const tamaguiConfig = createTamagui({
   })
 });
 
-type Conf = typeof tamaguiConfig;
+export type Conf = typeof tamaguiConfig;
+
+
 declare module 'tamagui' {
   interface TamaguiCustomConfig extends Conf {}
 }
