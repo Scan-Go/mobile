@@ -1,9 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider
-} from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient, focusManager } from '@tanstack/react-query';
@@ -17,6 +13,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TamaguiProvider } from 'tamagui';
+import { DarkTheme, LightTheme } from '../constants/navigation_theme';
 import AlertDialog, { alertDialogRef } from './components/alert_dialog';
 import Toast from './components/toast';
 import config from './tamagui/config';
@@ -57,9 +54,7 @@ export default function Providers({ children }: PropsWithChildren) {
         config={config}
         defaultTheme={colorScheme as any}
       >
-        <ThemeProvider
-          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
           <ToastProvider duration={3000}>
             <PersistQueryClientProvider
               client={queryClient}

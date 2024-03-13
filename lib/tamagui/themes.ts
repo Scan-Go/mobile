@@ -1,60 +1,79 @@
-import { createSoftenMask, createThemeBuilder } from "@tamagui/theme-builder";
-import { colorPalette_Dark, colorPalette_Light } from "./palette";
+import { createSoftenMask, createThemeBuilder } from '@tamagui/theme-builder';
+import { colorPalette_Dark, colorPalette_Light } from './palette';
 
 const themesBuilder = createThemeBuilder()
   .addPalettes({
     dark: colorPalette_Dark,
-    light: colorPalette_Light,
+    light: colorPalette_Light
   })
-
   .addTemplates({
-    base: {
+    light: {
+      navigationBg: -2,
+      navigationCardBg: -2,
+      primary: 7,
       background: 0,
-      backgroundHover: 3,
+      backgroundHover: 1,
       backgroundPress: 4,
       backgroundFocus: 5,
       backgroundStrong: 1,
       backgroundTransparent: 0,
-      color: -0,
-      colorHover: -2,
-      colorPress: -1,
-      colorFocus: -2,
+      color: -1,
+      colorHover: -4,
+      colorPress: -2,
+      colorFocus: -4,
       colorTransparent: -0,
-      borderColor: 5,
+      borderColor: 8,
       borderColorHover: 6,
       borderColorFocus: 4,
       borderColorPress: 5,
-      placeholderColor: -4,
+      placeholderColor: -4
     },
+    dark: {
+      navigationBg: -2,
+      navigationCardBg: -2,
+      primary: 7,
+      background: 0,
+      backgroundHover: 7,
+      backgroundPress: 4,
+      backgroundFocus: 5,
+      backgroundStrong: 1,
+      backgroundTransparent: 0,
+      color: -7,
+      colorHover: 2,
+      colorPress: 1,
+      colorFocus: 2,
+      colorTransparent: 0,
+      borderColor: 8,
+      borderColorHover: 8,
+      borderColorFocus: 8,
+      borderColorPress: 8,
+      placeholderColor: 4
+    }
   })
-
   .addMasks({
-    soften: createSoftenMask(),
+    soften: createSoftenMask()
   })
-
   .addThemes({
     light: {
-      template: "base",
-      palette: "light",
+      template: 'light',
+      palette: 'light'
     },
-
     dark: {
-      template: "base",
-      palette: "dark",
-    },
+      template: 'dark',
+      palette: 'dark'
+    }
   })
-
   .addChildThemes({
     active: {
-      mask: "soften",
+      mask: 'soften',
       override: {
-        color: 0,
-        background: -1,
-      },
+        background: -5,
+        color: -1
+      }
     },
     subtle: {
-      mask: "soften",
-    },
+      mask: 'soften'
+    }
   });
 
 export default themesBuilder.build();

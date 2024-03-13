@@ -45,9 +45,6 @@ export default function SignUpPage() {
               Fortsätt med Apple
             </Button>
           </View>
-          <DividerWithText>eller</DividerWithText>
-
-          <Button outlined>Skapa ett konto</Button>
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>
