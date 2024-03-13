@@ -1,5 +1,7 @@
-import { AuthStoreState, useAuthStore } from "@lib/store/auth.store";
-import { BaseService } from "./base.service";
+import { IRegisterUserForm } from '@lib/models/user.model';
+import { queryClient } from '@lib/providers';
+import { AuthStoreState, useAuthStore } from '@lib/store/auth.store';
+import { BaseService } from './base.service';
 
 class AuthService extends BaseService {
   async logout() {
@@ -11,22 +13,22 @@ class AuthService extends BaseService {
 
     const data = await this.client.auth.signInWithPassword({
       email,
-      password,
+      password
     });
 
     useAuthStore.setState((state) => ({ signingIn: !state.signingIn }));
     return data;
   }
-  async signUp(data: any) {
+  async signUp(data: IRegisterUserForm) {
     const { error } = await this.client.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
         data: {
           firstName: data.firstName,
-          lastName: data.lastName,
-        },
-      },
+          lastName: data.lastName
+        }
+      }
     });
 
     if (error) {
@@ -37,14 +39,14 @@ class AuthService extends BaseService {
   async sendVerificationEmail(email: string) {
     const returnUrl = process.env.PROD
       ? process.env.EXPO_PUBLIC_SUPABASE_URL
-      : "http://localhost:8100";
+      : 'http://localhost:8100';
 
     const { error } = await this.client.auth.resend({
       email,
-      type: "signup",
+      type: 'signup',
       options: {
-        emailRedirectTo: returnUrl,
-      },
+        emailRedirectTo: returnUrl
+      }
     });
 
     if (error) {
@@ -57,7 +59,7 @@ class AuthService extends BaseService {
       const updateState: Partial<AuthStoreState> = {};
 
       switch (state) {
-        case "INITIAL_SESSION":
+        case 'INITIAL_SESSION':
           updateState.isInitialized = true;
 
           if (session) {
@@ -66,18 +68,18 @@ class AuthService extends BaseService {
           }
           break;
 
-        case "SIGNED_IN":
+        case 'SIGNED_IN':
           updateState.isSignedIn = true;
           updateState.user = session!.user;
           break;
 
-        case "SIGNED_OUT":
+        case 'SIGNED_OUT':
           updateState.isSignedIn = false;
           updateState.user = undefined;
           queryClient.clear();
           break;
 
-        case "USER_UPDATED":
+        case 'USER_UPDATED':
           updateState.user = session!.user;
           break;
       }

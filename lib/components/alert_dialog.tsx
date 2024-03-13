@@ -4,15 +4,15 @@ import React, {
   forwardRef,
   useCallback,
   useImperativeHandle,
-  useState,
-} from "react";
+  useState
+} from 'react';
 import {
   AlertDialog,
   AlertDialogActionProps,
   Button,
   XStack,
-  YStack,
-} from "tamagui";
+  YStack
+} from 'tamagui';
 
 export interface IFireAlertDialog {
   title: string;
@@ -22,6 +22,7 @@ export interface IFireAlertDialog {
 
 export interface IAlertDialogRef {
   fire: (options: IFireAlertDialog) => void;
+  dismiss: () => void;
 }
 
 export const alertDialogRef = createRef<IAlertDialogRef>();
@@ -43,6 +44,9 @@ function _AlertDialog(_: any, ref: any) {
           setActions(options.actions);
           setIsOpen(true);
         },
+        dismiss: () => {
+          setIsOpen(false);
+        }
       }),
       []
     )
@@ -65,12 +69,12 @@ function _AlertDialog(_: any, ref: any) {
             elevate
             key="content"
             animation={[
-              "quick",
+              'quick',
               {
                 opacity: {
-                  overshootClamping: true,
-                },
-              },
+                  overshootClamping: true
+                }
+              }
             ]}
             enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
             exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
@@ -83,7 +87,10 @@ function _AlertDialog(_: any, ref: any) {
               <AlertDialog.Title>{title}</AlertDialog.Title>
               <AlertDialog.Description>{desc}</AlertDialog.Description>
 
-              <XStack space="$3" justifyContent="flex-end">
+              <XStack
+                space="$3"
+                justifyContent="flex-end"
+              >
                 <AlertDialog.Cancel asChild>
                   <Button onPress={() => setIsOpen(false)}>Cancel</Button>
                 </AlertDialog.Cancel>

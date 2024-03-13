@@ -1,38 +1,45 @@
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from 'expo-router';
 
-import "../tamagui-web.css";
+import '../tamagui-web.css';
 
-import Providers from "@lib/providers";
-import { useFonts } from "expo-font";
-import { useEffect } from "react";
+import Providers from '@lib/providers';
+import { authService } from '@lib/services/auth.service';
+import { useAuthStore } from '@lib/store/auth.store';
+import { useFonts } from 'expo-font';
+import { useEffect } from 'react';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
-};
+  ErrorBoundary
+} from 'expo-router';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+
   const [interLoaded, interError] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf')
   });
 
   useEffect(() => {
-    if (interLoaded || interError) {
+    const listener = authService.listenToAuthClient();
+
+    return () => {
+      listener.data.subscription.unsubscribe();
+    };
+  }, [isInitialized]);
+
+  useEffect(() => {
+    if ((interLoaded || interError) && isInitialized) {
       // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
       SplashScreen.hideAsync();
     }
-  }, [interLoaded, interError]);
+  }, [interLoaded, interError, isInitialized]);
 
-  if (!interLoaded && !interError) {
+  if (!interLoaded && !interError && !isInitialized) {
     return null;
   }
 
@@ -43,7 +50,10 @@ function RootLayoutNav() {
   return (
     <Providers>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(app)"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </Providers>
   );
