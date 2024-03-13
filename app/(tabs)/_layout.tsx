@@ -1,39 +1,35 @@
-import {
-  Home,
-  MessagesSquare,
-  QrCode,
-  UserCircle2
-} from '@tamagui/lucide-icons';
-import { Tabs } from 'expo-router';
+import { Link, Tabs } from 'expo-router'
+import { Pressable } from 'react-native'
+import { Text } from 'tamagui'
 
-export default function TabsLayout() {
+export default function TabLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: 'red',
+      }}
+    >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (!focused ? <Home /> : <Home />)
+          title: 'Tab One',
+          tabBarIcon: ({ color }) => <Text>Hello!</Text>,
+          headerRight: () => (
+            <Link href="/modal" asChild>
+              <Pressable>
+                <Text>Hello!</Text>
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <Tabs.Screen
-        name="scan"
+        name="two"
         options={{
-          tabBarIcon: () => <QrCode />
-        }}
-      />
-      <Tabs.Screen
-        name="messages"
-        options={{
-          tabBarIcon: () => <MessagesSquare />
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          tabBarIcon: () => <UserCircle2 />
+          title: 'Tab Two',
+          tabBarIcon: ({ color }) => <Text>Hello!</Text>,
         }}
       />
     </Tabs>
-  );
+  )
 }

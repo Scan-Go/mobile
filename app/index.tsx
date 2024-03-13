@@ -1,11 +1,14 @@
-import useSession from '@lib/hooks/useSession';
-import { Redirect } from 'expo-router';
-import { Text } from 'tamagui';
+import { useAuthStore } from "@lib/store/auth.store";
+import { Redirect } from "expo-router";
 
 function RootScreen() {
-  const { isLoggedIn } = useSession();
+  const { isSignedIn } = useAuthStore();
 
-  return isLoggedIn ? <Redirect href="/home" /> : <Text>qwe</Text>;
+  return isSignedIn ? (
+    <Redirect href="/(tabs)/" />
+  ) : (
+    <Redirect href="/(auth)/signIn" />
+  );
 }
 
 export default RootScreen;

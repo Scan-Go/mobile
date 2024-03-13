@@ -1,12 +1,15 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-      "strict": true,
-      "module": "esnext",
-      "paths": {
-          "@lib/*": ["./lib/*"],
-          "@assets/*": ["./assets/*"]
-      }
+    "strict": true,
+    "paths": {
+      "@lib/*": ["./lib/*"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
 }

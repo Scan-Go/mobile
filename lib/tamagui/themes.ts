@@ -1,44 +1,12 @@
-import { createSoftenMask, createThemeBuilder } from '@tamagui/theme-builder';
-
-const strengthenBackground = (template: any) => ({
-  background: template.background
-});
-
-const colorPalette_Light = [
-  '#fff',
-  '#fff2ed',
-  '#ffe4db',
-  '#ffd7c8',
-  '#ffc9b6',
-  '#ffbca4',
-  '#feaf92',
-  '#fea180',
-  '#fe946d',
-  '#fe865b',
-  '#fe7949',
-  '#000'
-];
-
-const colorPalette_Dark = [
-  '#000000',
-  '#190c07',
-  '#33180f',
-  '#4c2416',
-  '#66301d',
-  '#7f3d25',
-  '#98492c',
-  '#b25533',
-  '#cb613a',
-  '#e56d42',
-  '#fe7949',
-  '#fff'
-];
+import { createSoftenMask, createThemeBuilder } from "@tamagui/theme-builder";
+import { colorPalette_Dark, colorPalette_Light } from "./palette";
 
 const themesBuilder = createThemeBuilder()
   .addPalettes({
     dark: colorPalette_Dark,
-    light: colorPalette_Light
+    light: colorPalette_Light,
   })
+
   .addTemplates({
     base: {
       background: 0,
@@ -56,33 +24,37 @@ const themesBuilder = createThemeBuilder()
       borderColorHover: 6,
       borderColorFocus: 4,
       borderColorPress: 5,
-      placeholderColor: -4
-    }
+      placeholderColor: -4,
+    },
   })
+
   .addMasks({
-    soften: createSoftenMask()
+    soften: createSoftenMask(),
   })
+
   .addThemes({
     light: {
-      template: 'base',
-      palette: 'light'
+      template: "base",
+      palette: "light",
     },
+
     dark: {
-      template: 'base',
-      palette: 'dark'
-    }
+      template: "base",
+      palette: "dark",
+    },
   })
+
   .addChildThemes({
     active: {
-      mask: 'soften',
+      mask: "soften",
       override: {
         color: 0,
-        background: -1
-      }
+        background: -1,
+      },
     },
     subtle: {
-      mask: 'soften'
-    }
+      mask: "soften",
+    },
   });
 
 export default themesBuilder.build();
