@@ -5,39 +5,42 @@ import Screen from '@lib/components/screen';
 import LoginForm from '@lib/modules/auth/login-form';
 import { Link, useNavigation } from 'expo-router';
 import React, { useLayoutEffect } from 'react';
-import { H1, H6 } from 'tamagui';
+import { H1, H6, View } from 'tamagui';
 
 function LoginScreen() {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      // headerRight: () => <SizableText>selam</SizableText>,
-      title: 'Selam'
+      headerShown: false
     });
   }, []);
 
   return (
-    <Screen gap="$3">
+    <Screen
+      gap="$3"
+      justifyContent="space-evenly"
+    >
       <H1>Login</H1>
       <H6 color="gray">Welcome back to the app</H6>
       <LoginForm />
 
       <DividerWithText>eller forsätt med</DividerWithText>
 
-      <Button
-        outlined
-        icon={<MaterialCommunityIcons name="google" />}
-      >
-        Fortsätt med Google
-      </Button>
-      <Button
-        outlined
-        icon={<MaterialCommunityIcons name="apple" />}
-      >
-        Fortsätt med Apple
-      </Button>
-
+      <View gap="$4">
+        <Button
+          outlined
+          icon={<MaterialCommunityIcons name="google" />}
+        >
+          Fortsätt med Google
+        </Button>
+        <Button
+          outlined
+          icon={<MaterialCommunityIcons name="apple" />}
+        >
+          Fortsätt med Apple
+        </Button>
+      </View>
       <DividerWithText>eller</DividerWithText>
 
       <Link

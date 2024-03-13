@@ -4,13 +4,15 @@ import DividerWithText from '@lib/components/divider';
 import Screen from '@lib/components/screen';
 import RegisterForm from '@lib/modules/auth/register-form';
 import { useNavigation } from 'expo-router';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { H1, H6, ScrollView, View } from 'tamagui';
 
 export default function SignUpPage() {
   const navigation = useNavigation();
-
+  const { bottom } = useSafeAreaInsets();
+  const [height, setHeight] = useState<number>();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Sign up'
@@ -18,12 +20,21 @@ export default function SignUpPage() {
   }, []);
 
   return (
-    <Screen gap="$3">
+    <Screen
+      gap="$3"
+      onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
+    >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={height && height - bottom}
       >
-        <ScrollView>
+        <ScrollView
+          contentContainerStyle={{
+            justifyContent: 'space-evenly',
+            gap: '$5'
+          }}
+        >
           <H1>Registrera dig</H1>
           <H6 color="gray">Welcome back to the app</H6>
 

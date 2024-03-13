@@ -26,7 +26,8 @@ const themesBuilder = createThemeBuilder()
       borderColorHover: 6,
       borderColorFocus: 4,
       borderColorPress: 5,
-      placeholderColor: -4
+      placeholderColor: -4,
+      cardBackground: -3
     },
     dark: {
       navigationBg: -2,
