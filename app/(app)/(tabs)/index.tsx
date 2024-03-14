@@ -10,7 +10,27 @@ export default function TabOneScreen() {
       <Text fontSize={20}>Tab eOne</Text>
       <View>
         <Card
-          elevate
+          size="$4"
+          bordered
+          animation="bouncy"
+          hoverStyle={{ scale: 0.925 }}
+          pressStyle={{ scale: 0.875 }}
+        >
+          <Card.Header padded>
+            <H2>Sony A7IV</H2>
+            <Paragraph>Now available</Paragraph>
+          </Card.Header>
+          <Card.Footer padded>
+            <XStack flex={1} />
+            <Button
+              borderRadius="$10"
+              onPress={() => authService.logout()}
+            >
+              Purchase
+            </Button>
+          </Card.Footer>
+        </Card>
+        <Card
           size="$4"
           bordered
         >

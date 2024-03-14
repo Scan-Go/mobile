@@ -1,4 +1,4 @@
-import { config as configBase } from '@tamagui/config';
+import { config as configBase } from '@tamagui/config/v3';
 import { createTamagui } from 'tamagui';
 import themes from './themes';
 

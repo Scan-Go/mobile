@@ -27,7 +27,10 @@ const themesBuilder = createThemeBuilder()
       borderColorFocus: 4,
       borderColorPress: 5,
       placeholderColor: -4,
-      cardBackground: -3
+      shadowColor: -5,
+      shadowColorFocus: -5,
+      shadowColorHover: -6,
+      shadowColorPress: -6
     },
     dark: {
       navigationBg: -2,
