@@ -179,25 +179,22 @@ export type Database = {
           created_at: string
           id: string
           number: string
-          userId: string
         }
         Insert: {
           created_at?: string
-          id?: string
+          id: string
           number: string
-          userId: string
         }
         Update: {
           created_at?: string
           id?: string
           number?: string
-          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "phone_numbers_userId_fkey"
-            columns: ["userId"]
-            isOneToOne: false
+            foreignKeyName: "phone_numbers_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -267,25 +264,22 @@ export type Database = {
           id: string
           twitter: string | null
           updated_at: string
-          userId: string | null
         }
         Insert: {
-          id?: string
+          id: string
           twitter?: string | null
           updated_at?: string
-          userId?: string | null
         }
         Update: {
           id?: string
           twitter?: string | null
           updated_at?: string
-          userId?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "public_social_media_accounts_userId_fkey"
-            columns: ["userId"]
-            isOneToOne: false
+            foreignKeyName: "social_media_accounts_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },

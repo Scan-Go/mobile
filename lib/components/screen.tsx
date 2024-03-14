@@ -3,7 +3,7 @@ import { styled } from 'tamagui';
 
 const Screen = styled(SafeAreaView, {
   flex: 1,
-  padding: '$3'
+  margin: '$5'
 });
 
 export default Screen;

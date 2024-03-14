@@ -34,6 +34,7 @@
     "@tanstack/react-query-persist-client": "^5.27.5",
     "babel-preset-expo": "^10.0.1",
     "burnt": "^0.12.2",
+    "date-fns": "^3.4.0",
     "expo": "~50.0.6",
     "expo-asset": "~9.0.2",
     "expo-font": "~11.10.2",

@@ -1,5 +1,5 @@
-const lightTransparent = 'rgba(255,255,255,1)';
-const darkTransparent = 'rgba(10,10,10,1)';
+const lightTransparent = 'hsl(165, 64%, 95%)';
+const darkTransparent = 'hsl(165, 25%, 15%)';
 const lightColor = 'hsl(0, 0%, 9.0%)';
 const darkColor = '#fff';
 export const colorPalette_Light = [

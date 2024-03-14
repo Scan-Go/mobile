@@ -6822,6 +6822,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "date-fns@npm:3.4.0"
+  checksum: e4395adcdf10b1784c6479b9d715ed9a1cb06c9d99b95607ad6db43b18371e22314d3e9e5509a378da1c5a6b34b313049bf82897b7f263f413e051f59e0ea5c2
+  languageName: node
+  linkType: hard
+
 "dayjs@npm:^1.8.15":
   version: 1.11.10
   resolution: "dayjs@npm:1.11.10"
@@ -12791,6 +12798,7 @@ __metadata:
     "@types/react": "npm:~18.2.14"
     babel-preset-expo: "npm:^10.0.1"
     burnt: "npm:^0.12.2"
+    date-fns: "npm:^3.4.0"
     expo: "npm:~50.0.6"
     expo-asset: "npm:~9.0.2"
     expo-font: "npm:~11.10.2"

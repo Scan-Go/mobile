@@ -12,12 +12,12 @@ const themesBuilder = createThemeBuilder()
       navigationCardBg: -2,
       primary: 7,
       background: 0,
-      backgroundHover: 1,
+      backgroundHover: 0,
       backgroundPress: 4,
-      backgroundFocus: 5,
+      backgroundFocus: 2,
       backgroundStrong: 1,
       backgroundTransparent: 0,
-      color: -1,
+      color: -3,
       colorHover: -4,
       colorPress: -2,
       colorFocus: -4,
@@ -73,6 +73,13 @@ const themesBuilder = createThemeBuilder()
       override: {
         background: -5,
         color: -1
+      }
+    },
+    surface: {
+      mask: 'soften',
+      override: {
+        background: 0,
+        backgroundFocus: 5
       }
     },
     subtle: {
