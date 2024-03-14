@@ -116,6 +116,7 @@ function RegisterForm() {
                   id="email"
                   keyboardType="email-address"
                   placeholder="Email"
+                  autoCapitalize="none"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}

@@ -110,6 +110,7 @@ function LoginForm() {
                   id="email"
                   keyboardType="email-address"
                   placeholder="Email"
+                  autoCapitalize="none"
                   onSubmitEditing={() => passwordRef.current?.focus()}
                   onBlur={onBlur}
                   onChangeText={onChange}
