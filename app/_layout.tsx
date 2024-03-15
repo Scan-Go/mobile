@@ -1,12 +1,11 @@
 import { SplashScreen, Stack } from 'expo-router';
 
-import '../tamagui-web.css';
-
 import Providers from '@lib/providers';
 import { authService } from '@lib/services/auth.service';
 import { useAuthStore } from '@lib/store/auth.store';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
+import '../tamagui-web.css';
 
 export {
   // Catch any errors thrown by the Layout component.

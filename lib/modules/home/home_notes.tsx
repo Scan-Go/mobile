@@ -10,6 +10,7 @@ import { useAuthStore } from '@lib/store/auth.store';
 import { PostgrestError } from '@supabase/supabase-js';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { Link } from 'expo-router';
 import { produce } from 'immer';
 import { Suspense, useCallback } from 'react';
 import { FlatList } from 'react-native';
@@ -110,7 +111,14 @@ export default function HomeNotesModule() {
     return (
       <EmptyFlatlist
         message="Det finns inga temporära anteckningar just nu."
-        extra={<Button> Lägg till nytt anteckning</Button>}
+        extra={
+          <Link
+            href="/new_note"
+            asChild
+          >
+            <Button> Lägg till nytt anteckning</Button>
+          </Link>
+        }
       />
     );
   }, []);

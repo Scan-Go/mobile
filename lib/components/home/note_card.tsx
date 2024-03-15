@@ -24,7 +24,7 @@ export default function NoteCard({ content, tag, expire_at, onPress }: IProps) {
         p="$5"
         bg="$background"
         cursor="pointer"
-        animation="bouncy"
+        animation="quick"
         hoverStyle={{ scale: 0.98, bg: '$backgroundHover' }}
       >
         <YStack

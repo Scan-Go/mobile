@@ -14,6 +14,10 @@ export default function AppLayout() {
         name="(tabs)"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="new_note"
+        options={{ presentation: 'modal' }}
+      />
     </Stack>
   );
 }
