@@ -46,7 +46,7 @@ class NoteService extends BaseService {
     return data;
   }
 
-  async deleteNote(noteUid: number) {
+  async deleteNote(noteUid: string) {
     const { error } = await this.client
       .from('notes')
       .delete()

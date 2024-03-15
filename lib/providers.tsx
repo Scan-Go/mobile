@@ -1,3 +1,4 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeProvider } from '@react-navigation/native';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
@@ -50,29 +51,33 @@ export default function Providers({ children }: PropsWithChildren) {
 
   return (
     <>
-      <TamaguiProvider
-        config={config}
-        defaultTheme={colorScheme as any}
-      >
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
-          <ToastProvider duration={3000}>
-            <PersistQueryClientProvider
-              client={queryClient}
-              persistOptions={{ persister: asyncStoragePersister }}
-            >
-              {children}
-              <Toast />
-              <ToastViewport
-                top={insets.top + 30}
-                left={insets.left}
-                right={insets.right}
-              />
-            </PersistQueryClientProvider>
-          </ToastProvider>
+      <ActionSheetProvider>
+        <TamaguiProvider
+          config={config}
+          defaultTheme={colorScheme as any}
+        >
+          <ThemeProvider
+            value={colorScheme === 'dark' ? DarkTheme : LightTheme}
+          >
+            <ToastProvider duration={3000}>
+              <PersistQueryClientProvider
+                client={queryClient}
+                persistOptions={{ persister: asyncStoragePersister }}
+              >
+                {children}
+                <Toast />
+                <ToastViewport
+                  top={insets.top + 30}
+                  left={insets.left}
+                  right={insets.right}
+                />
+              </PersistQueryClientProvider>
+            </ToastProvider>
 
-          <AlertDialog ref={alertDialogRef} />
-        </ThemeProvider>
-      </TamaguiProvider>
+            <AlertDialog ref={alertDialogRef} />
+          </ThemeProvider>
+        </TamaguiProvider>
+      </ActionSheetProvider>
     </>
   );
 }

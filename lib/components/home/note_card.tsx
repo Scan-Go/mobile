@@ -4,9 +4,11 @@ import { sv } from 'date-fns/locale';
 import { useMemo } from 'react';
 import { H4, Paragraph, Text, Theme, View, XStack, YStack } from 'tamagui';
 
-type IProps = Pick<INoteWithTagName, 'tag' | 'content' | 'expire_at'>;
+type IProps = {
+  onPress: () => void;
+} & Pick<INoteWithTagName, 'tag' | 'content' | 'expire_at'>;
 
-export default function NoteCard({ content, tag, expire_at }: IProps) {
+export default function NoteCard({ content, tag, expire_at, onPress }: IProps) {
   const formattedDate = useMemo(() => {
     return formatDistanceToNow(expire_at, {
       addSuffix: true,
@@ -17,6 +19,7 @@ export default function NoteCard({ content, tag, expire_at }: IProps) {
   return (
     <Theme name="surface">
       <View
+        onPress={onPress}
         borderRadius="$5"
         p="$5"
         bg="$background"
