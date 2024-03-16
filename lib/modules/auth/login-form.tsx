@@ -137,6 +137,7 @@ function LoginForm() {
                   secureTextEntry
                   ref={passwordRef}
                   onBlur={onBlur}
+                  autoCapitalize="none"
                   onChangeText={onChange}
                   value={value}
                 />

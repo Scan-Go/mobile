@@ -143,6 +143,7 @@ function RegisterForm() {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
+                  autoCapitalize="none"
                 />
                 {errors.password ? (
                   <Text color="red">{errors.password.message}</Text>
@@ -166,6 +167,7 @@ function RegisterForm() {
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
+                  autoCapitalize="none"
                 />
                 {errors.password_confirmation?.message ? (
                   <Text color="red">
