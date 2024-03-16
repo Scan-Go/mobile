@@ -15,7 +15,7 @@ export default function AppLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="new_note"
+        name="edit_note"
         options={{ presentation: 'modal' }}
       />
     </Stack>

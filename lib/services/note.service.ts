@@ -1,7 +1,8 @@
 import {
   ICreateNewNote,
   INote,
-  INoteWithTagName
+  INoteWithTagName,
+  IUpdateNote
 } from '@lib/models/note.model';
 import { BaseService } from './base.service';
 
@@ -61,7 +62,7 @@ class NoteService extends BaseService {
     }
   }
 
-  async updateNote(noteUid: number, _data: Partial<INote>) {
+  async updateNote(noteUid: string, _data: IUpdateNote) {
     const { error } = await this.client
       .from('notes')
       .update(_data)
@@ -70,6 +71,20 @@ class NoteService extends BaseService {
     if (error) {
       throw error;
     }
+  }
+  async fetchNote(noteUid: string): Promise<INote> {
+    const { data, error } = await this.client
+      .from('notes')
+      .select()
+      .eq('id', noteUid)
+      .limit(1)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   }
 }
 

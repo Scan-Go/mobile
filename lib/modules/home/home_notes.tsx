@@ -9,6 +9,7 @@ import { useAuthStore } from '@lib/store/auth.store';
 import { PostgrestError } from '@supabase/supabase-js';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { produce } from 'immer';
 import { Suspense, useCallback } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
@@ -75,7 +76,10 @@ export default function HomeNotesModule() {
       async (selectedIndex) => {
         switch (selectedIndex) {
           case editButtonIndex:
-            console.log('Editing');
+            router.push({
+              pathname: '/(app)/edit_note',
+              params: { noteId: item.id }
+            });
             break;
 
           case destructiveButtonIndex:
@@ -108,10 +112,7 @@ export default function HomeNotesModule() {
 
   const emptyBlock = useCallback(() => {
     return (
-      <EmptyFlatlist
-        message="Det finns inga temporära anteckningar just nu."
-        extra={<NewNoteDialogModule />}
-      />
+      <EmptyFlatlist message="Det finns inga temporära anteckningar just nu." />
     );
   }, []);
 

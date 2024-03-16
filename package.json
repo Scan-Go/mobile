@@ -24,6 +24,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/datetimepicker": "7.6.1",
+    "@react-native-picker/picker": "2.6.1",
     "@react-navigation/native": "^6.0.2",
     "@supabase/supabase-js": "^2.39.8",
     "@tamagui/animations-moti": "^1.91.4",
