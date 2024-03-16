@@ -1,12 +1,10 @@
-import { animationsReanimated } from '@tamagui/config/src/animationsReanimated';
-import { config as configBase } from '@tamagui/config/v3';
+import { config as configBase } from '@tamagui/config/v2-reanimated';
 import { createTamagui } from 'tamagui';
 import themes from './themes';
 
 const config = createTamagui({
   ...configBase,
-  themes,
-  animations: animationsReanimated
+  themes
 });
 
 export default config;

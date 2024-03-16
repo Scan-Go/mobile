@@ -51,19 +51,19 @@ export default function Providers({ children }: PropsWithChildren) {
 
   return (
     <>
-      <ActionSheetProvider>
-        <TamaguiProvider
-          config={config}
-          defaultTheme={colorScheme as any}
-        >
-          <ThemeProvider
-            value={colorScheme === 'dark' ? DarkTheme : LightTheme}
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister: asyncStoragePersister }}
+      >
+        <ActionSheetProvider>
+          <TamaguiProvider
+            config={config}
+            defaultTheme={colorScheme as any}
           >
-            <ToastProvider duration={3000}>
-              <PersistQueryClientProvider
-                client={queryClient}
-                persistOptions={{ persister: asyncStoragePersister }}
-              >
+            <ThemeProvider
+              value={colorScheme === 'dark' ? DarkTheme : LightTheme}
+            >
+              <ToastProvider duration={3000}>
                 {children}
                 <Toast />
                 <ToastViewport
@@ -71,13 +71,13 @@ export default function Providers({ children }: PropsWithChildren) {
                   left={insets.left}
                   right={insets.right}
                 />
-              </PersistQueryClientProvider>
-            </ToastProvider>
+              </ToastProvider>
 
-            <AlertDialog ref={alertDialogRef} />
-          </ThemeProvider>
-        </TamaguiProvider>
-      </ActionSheetProvider>
+              <AlertDialog ref={alertDialogRef} />
+            </ThemeProvider>
+          </TamaguiProvider>
+        </ActionSheetProvider>
+      </PersistQueryClientProvider>
     </>
   );
 }

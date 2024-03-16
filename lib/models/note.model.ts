@@ -4,3 +4,5 @@ import { ITag } from './tag.model';
 export type INote = Tables<'notes'>;
 
 export type INoteWithTagName = INote & { tag: Pick<ITag, 'name'> };
+
+export type ICreateNewNote = Omit<INote, 'id' | 'created_at'>;

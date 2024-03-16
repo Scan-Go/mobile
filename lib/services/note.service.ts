@@ -1,4 +1,8 @@
-import { INote, INoteWithTagName } from '@lib/models/note.model';
+import {
+  ICreateNewNote,
+  INote,
+  INoteWithTagName
+} from '@lib/models/note.model';
 import { BaseService } from './base.service';
 
 class NoteService extends BaseService {
@@ -31,11 +35,11 @@ class NoteService extends BaseService {
     return data;
   }
 
-  async addNewNote(_data: Omit<INote, 'id'>) {
+  async addNewNote(_data: ICreateNewNote) {
     const { data, error } = await this.client
       .from('notes')
       .insert(_data)
-      .select()
+      .select('*, tag:tagId(name)')
       .limit(1)
       .single();
 

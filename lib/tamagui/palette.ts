@@ -1,9 +1,10 @@
-const lightTransparent = 'hsl(165, 64%, 95%)';
-const darkTransparent = 'hsl(165, 25%, 15%)';
+const lightTransparent = 'rgba(0,0,0,0.8)';
+const darkTransparent = 'rgba(255,255,255, 0.8)';
 const lightColor = 'hsl(0, 0%, 9.0%)';
 const darkColor = '#fff';
 export const colorPalette_Light = [
   lightTransparent,
+  'hsl(165, 64%, 95%)',
   'hsl(165, 64%, 81%)',
   'hsl(165, 63%, 76%)',
   'hsl(165, 62%, 71%)',
@@ -23,6 +24,7 @@ export const colorPalette_Light = [
 
 export const colorPalette_Dark = [
   darkTransparent,
+  'hsl(165, 25%, 15%)',
   'hsl(165, 64%, 81%)',
   'hsl(165, 63%, 76%)',
   'hsl(165, 62%, 71%)',
@@ -34,6 +36,7 @@ export const colorPalette_Dark = [
   'hsl(165, 41%, 30%)',
   'hsl(165, 36%, 25%)',
   'hsl(165, 31%, 20%)',
+  'hsl(165, 31%, 15%)',
   'hsl(165, 25%, 10%)',
   darkColor,
   lightTransparent

@@ -65,6 +65,9 @@ class AuthService extends BaseService {
           if (session) {
             updateState.isSignedIn = true;
             updateState.user = session.user;
+          } else {
+            updateState.isSignedIn = false;
+            updateState.user = undefined;
           }
           break;
 

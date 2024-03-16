@@ -11,12 +11,12 @@ const themesBuilder = createThemeBuilder()
       navigationBg: -2,
       navigationCardBg: -2,
       primary: 7,
-      background: 0,
-      backgroundHover: 0,
+      background: 1,
+      backgroundHover: 2,
       backgroundPress: 4,
       backgroundFocus: 2,
       backgroundStrong: 1,
-      backgroundTransparent: 0,
+      backgroundTransparent: -0,
       color: -3,
       colorHover: -4,
       colorPress: -2,
@@ -26,7 +26,7 @@ const themesBuilder = createThemeBuilder()
       borderColorHover: 6,
       borderColorFocus: 4,
       borderColorPress: 5,
-      placeholderColor: -4,
+      placeholderColor: 4,
       shadowColor: -5,
       shadowColorFocus: -5,
       shadowColorHover: -6,
@@ -36,12 +36,12 @@ const themesBuilder = createThemeBuilder()
       navigationBg: -2,
       navigationCardBg: -2,
       primary: 7,
-      background: 0,
-      backgroundHover: 7,
+      background: 1,
+      backgroundHover: 2,
       backgroundPress: 4,
       backgroundFocus: 5,
       backgroundStrong: 1,
-      backgroundTransparent: 0,
+      backgroundTransparent: -0,
       color: -7,
       colorHover: 2,
       colorPress: 1,
@@ -51,7 +51,11 @@ const themesBuilder = createThemeBuilder()
       borderColorHover: 8,
       borderColorFocus: 8,
       borderColorPress: 8,
-      placeholderColor: 4
+      placeholderColor: 4,
+      shadowColor: -5,
+      shadowColorFocus: -5,
+      shadowColorHover: -6,
+      shadowColorPress: -6
     }
   })
   .addMasks({
@@ -82,6 +86,7 @@ const themesBuilder = createThemeBuilder()
         backgroundFocus: 5
       }
     },
+
     subtle: {
       mask: 'soften'
     }

@@ -1,5 +1,4 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import Button from '@lib/components/button';
 import EmptyFlatlist from '@lib/components/empty_flatlist';
 import NoteCard from '@lib/components/home/note_card';
 import { INoteWithTagName } from '@lib/models/note.model';
@@ -10,12 +9,12 @@ import { useAuthStore } from '@lib/store/auth.store';
 import { PostgrestError } from '@supabase/supabase-js';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link } from 'expo-router';
 import { produce } from 'immer';
 import { Suspense, useCallback } from 'react';
-import { FlatList } from 'react-native';
-import { Spinner, YStack } from 'tamagui';
+import { FlatList, RefreshControl } from 'react-native';
+import { Spinner, View, YStack } from 'tamagui';
 import { DeleteMutationVariables } from './home_notes.types';
+import NewNoteDialogModule from './new_note_dialog.module';
 
 export default function HomeNotesModule() {
   const user = useAuthStore((state) => state.user);
@@ -111,14 +110,7 @@ export default function HomeNotesModule() {
     return (
       <EmptyFlatlist
         message="Det finns inga temporära anteckningar just nu."
-        extra={
-          <Link
-            href="/new_note"
-            asChild
-          >
-            <Button> Lägg till nytt anteckning</Button>
-          </Link>
-        }
+        extra={<NewNoteDialogModule />}
       />
     );
   }, []);
@@ -131,9 +123,22 @@ export default function HomeNotesModule() {
     <Suspense fallback={<Spinner size="large" />}>
       <FlatList
         data={notesQuery.data}
+        refreshControl={
+          <RefreshControl
+            refreshing={notesQuery.isPending}
+            onRefresh={notesQuery.refetch}
+          />
+        }
         ListEmptyComponent={emptyBlock}
         renderItem={renderItem}
         ItemSeparatorComponent={seperatorRenderer}
+        ListFooterComponent={
+          <>
+            <View mt="$5">
+              <NewNoteDialogModule />
+            </View>
+          </>
+        }
       />
     </Suspense>
   );
