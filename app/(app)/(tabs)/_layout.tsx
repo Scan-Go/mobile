@@ -1,35 +1,56 @@
-import { Link, Tabs } from 'expo-router'
-import { Pressable } from 'react-native'
-import { Text } from 'tamagui'
+import Button from '@lib/components/button';
+import { Edit3, Home, Settings, User } from '@tamagui/lucide-icons';
+import { Link, Tabs } from 'expo-router';
+import { XStack, useTheme } from 'tamagui';
 
 export default function TabLayout() {
+  const theme = useTheme();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'red',
+        tabBarActiveTintColor: theme.colorFocus.val
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <Text>Hello!</Text>,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                <Text>Hello!</Text>
-              </Pressable>
-            </Link>
-          ),
+          title: 'Hem',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused }) => (
+            <Home color={focused ? '$colorFocus' : '$color'} />
+          )
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <Text>Hello!</Text>,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused }) => (
+            <User color={focused ? '$colorFocus' : '$color'} />
+          ),
+          headerRight: () => (
+            <XStack>
+              <Link
+                href="/modal"
+                asChild
+              >
+                <Button bg="$navigationCardBg">
+                  <Settings />
+                </Button>
+              </Link>
+              <Link
+                href="/modal"
+                asChild
+              >
+                <Button bg="$navigationCardBg">
+                  <Edit3 />
+                </Button>
+              </Link>
+            </XStack>
+          )
         }}
       />
     </Tabs>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import { Theme } from '@react-navigation/native';
 export const DarkTheme: Theme = {
   dark: true,
   colors: {
-    primary: config.themes.dark.navigationBg.val,
+    primary: config.themes.dark.backgroundFocus.val,
     background: config.themes.dark.navigationBg.val,
     card: config.themes.dark.navigationCardBg.val,
     text: config.themes.dark.color.val,
@@ -14,9 +14,9 @@ export const DarkTheme: Theme = {
 };
 
 export const LightTheme: Theme = {
-  dark: true,
+  dark: false,
   colors: {
-    primary: config.themes.light.navigationBg.val,
+    primary: config.themes.light.backgroundFocus.val,
     background: config.themes.light.navigationBg.val,
     card: config.themes.light.navigationCardBg.val,
     text: config.themes.light.color.val,
