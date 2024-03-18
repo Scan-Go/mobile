@@ -116,8 +116,6 @@ export default function ProfileView({
       {(socialData || phoneData) && (
         <View
           bg="$backgroundStrong"
-          p="$3"
-          py="$5"
           borderRadius="$4"
           justifyContent="center"
           alignItems="center"
@@ -157,19 +155,6 @@ export default function ProfileView({
                 />
               </YGroup.Item>
             )}
-
-            <YGroup.Item>
-              <ListItem
-                size="$5"
-                hoverTheme
-                pressTheme
-                icon={<Phone />}
-                alignItems="center"
-                onPress={() => null}
-                title="Phone"
-                subTitle="+46 73 894 04 03"
-              />
-            </YGroup.Item>
           </YGroup>
         </View>
       )}

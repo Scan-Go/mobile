@@ -1,5 +1,6 @@
 import { Card, H6, Separator, YGroup } from 'tamagui';
 import LogoutItem from './items/logout_item';
+import TwitterItem from './items/twitter_item';
 
 export default function SettingsProfileSection() {
   return (
@@ -8,6 +9,9 @@ export default function SettingsProfileSection() {
         <H6>Profil</H6>
       </Card.Header>
       <YGroup separator={<Separator />}>
+        <YGroup.Item>
+          <TwitterItem />
+        </YGroup.Item>
         <YGroup.Item>
           <LogoutItem />
         </YGroup.Item>
