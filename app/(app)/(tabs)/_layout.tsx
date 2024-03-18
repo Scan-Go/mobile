@@ -32,7 +32,7 @@ export default function TabLayout() {
           headerRight: () => (
             <XStack>
               <Link
-                href="/modal"
+                href="/(app)/settings"
                 asChild
               >
                 <Button bg="$navigationCardBg">

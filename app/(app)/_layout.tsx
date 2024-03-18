@@ -18,6 +18,10 @@ export default function AppLayout() {
         name="edit_note"
         options={{ presentation: 'modal' }}
       />
+      <Stack.Screen
+        name="settings"
+        options={{ presentation: 'modal', title: 'Inställningar' }}
+      />
     </Stack>
   );
 }
