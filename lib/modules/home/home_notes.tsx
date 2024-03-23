@@ -117,7 +117,7 @@ export default function HomeNotesModule() {
   }, []);
 
   if (notesQuery.isError) {
-    return emptyBlock;
+    return emptyBlock();
   }
 
   return (
