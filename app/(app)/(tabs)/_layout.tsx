@@ -1,5 +1,5 @@
 import Button from '@lib/components/button';
-import { Edit3, Home, Settings, User } from '@tamagui/lucide-icons';
+import { Edit3, Home, Settings, Tags, User } from '@tamagui/lucide-icons';
 import { Link, Tabs } from 'expo-router';
 import { XStack, useTheme } from 'tamagui';
 
@@ -19,6 +19,16 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <Home color={focused ? '$colorFocus' : '$color'} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="tags"
+        options={{
+          title: 'Etiketter',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused }) => (
+            <Tags color={focused ? '$colorFocus' : '$color'} />
           )
         }}
       />

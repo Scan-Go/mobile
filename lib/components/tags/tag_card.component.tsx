@@ -20,66 +20,65 @@ const Indicator = styled(View, {
 
 export default function TagCard({ created_at, isActive, name, note }: IProps) {
   return (
-    <LinearGradient
-      colors={['#642401', '#064a7d']}
-      start={[0, 1]}
-      end={[0, 0]}
-      style={styles.background}
-      borderRadius="$8"
+    <View
+      animation="bouncy"
+      hoverStyle={{ scale: 0.98 }}
+      pressStyle={{ scale: 0.98 }}
     >
-      <BackgroundSVG />
-      <View style={styles.container}>
-        <XStack
-          alignItems="center"
-          gap="$3"
+      <LinearGradient
+        colors={['#642401', '#064a7d']}
+        start={[0, 1]}
+        end={[0, 0]}
+        style={styles.background}
+        borderRadius="$6"
+      >
+        <BackgroundSVG style={{ zIndex: 2 }} />
+        <View
+          position="absolute"
+          paddingTop="$3"
+          paddingLeft="$3"
         >
-          <Indicator bg={isActive ? '$green10Light' : '$red10Light'} />
-          <Text
-            fontSize="$6"
-            color="white"
+          <XStack
+            alignItems="center"
+            gap="$3"
           >
-            {isActive ? 'Aktiv' : 'Deaktiv'}
-          </Text>
-        </XStack>
-
-        <YStack mt="$8">
-          <YStack>
+            <Indicator bg={isActive ? '$green10Light' : '$red10Light'} />
             <Text
-              fontSize="$9"
+              fontSize="$4"
               color="white"
             >
-              {name}
+              {isActive ? 'Aktiv' : 'Deaktiv'}
             </Text>
-            <Paragraph color="white">{note}</Paragraph>
-          </YStack>
+          </XStack>
 
-          <Text
-            color="white"
-            mt="$6"
-          >
-            {format(created_at, 'd MMMM y', {
-              locale: sv
-            })}
-          </Text>
-        </YStack>
-      </View>
-    </LinearGradient>
+          <YStack mt="$8">
+            <YStack>
+              <Text
+                fontSize="$8"
+                color="white"
+              >
+                {name}
+              </Text>
+              <Paragraph color="white">{note}</Paragraph>
+            </YStack>
+
+            <Text
+              color="white"
+              mt="$6"
+            >
+              {format(created_at, 'd MMMM y', {
+                locale: sv
+              })}
+            </Text>
+          </YStack>
+        </View>
+      </LinearGradient>
+    </View>
   );
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   background: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
     zIndex: -1
-  },
-
-  container: {
-    position: 'absolute',
-    padding: 10,
-    display: 'flex'
   }
 });
