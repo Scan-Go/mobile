@@ -1,4 +1,5 @@
 import { Card, H6, Separator, YGroup } from 'tamagui';
+import PrivacyAllowSendMessages from './items/allow_send_message';
 import PrivacyAllowShowPhone from './items/allow_show_phone';
 
 export default function SettingsPrivacySection() {
@@ -10,6 +11,9 @@ export default function SettingsPrivacySection() {
       <YGroup separator={<Separator />}>
         <YGroup.Item>
           <PrivacyAllowShowPhone />
+        </YGroup.Item>
+        <YGroup.Item>
+          <PrivacyAllowSendMessages />
         </YGroup.Item>
       </YGroup>
     </Card>
