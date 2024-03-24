@@ -5,6 +5,7 @@ import {
   IUserPrivateSocialMediaAccounts
 } from '@lib/models/user.model';
 import { Phone, Send, Twitter } from '@tamagui/lucide-icons';
+import { Link } from 'expo-router';
 import {
   Avatar,
   H2,
@@ -15,8 +16,7 @@ import {
   Text,
   View,
   YGroup,
-  YStack,
-  useTheme
+  YStack
 } from 'tamagui';
 import Button from './button';
 
@@ -41,8 +41,6 @@ export default function ProfileView({
   phoneData,
   socialData
 }: IProps) {
-  const theme = useTheme();
-
   return (
     <YStack
       justifyContent="space-evenly"
@@ -78,14 +76,15 @@ export default function ProfileView({
         <Button
           w="100%"
           icon={<Send />}
+          onPress={onSendMessage}
         >
           Skicka meddelande
         </Button>
       )}
 
       <View
-        bg="$backgroundStrong"
         p="$3"
+        bg="$background"
         py="$5"
         borderRadius="$4"
         w="100%"
@@ -99,7 +98,7 @@ export default function ProfileView({
         </Text>
       </View>
       <View
-        bg="$backgroundStrong"
+        bg="$background"
         p="$3"
         py="$5"
         borderRadius="$4"
@@ -128,31 +127,43 @@ export default function ProfileView({
           >
             {phoneData && (
               <YGroup.Item>
-                <ListItem
-                  size="$5"
-                  hoverTheme
-                  pressTheme
-                  icon={<Phone />}
-                  alignItems="center"
-                  onPress={() => null}
-                  title="Mobil"
-                  subTitle={phoneData.number}
-                />
+                <Link
+                  href={`tel:${phoneData.number}`}
+                  target="_blank"
+                  asChild
+                >
+                  <ListItem
+                    size="$5"
+                    hoverTheme
+                    pressTheme
+                    icon={<Phone />}
+                    alignItems="center"
+                    onPress={() => null}
+                    title="Mobil"
+                    subTitle={phoneData.number}
+                  />
+                </Link>
               </YGroup.Item>
             )}
 
             {socialData?.twitter && (
               <YGroup.Item>
-                <ListItem
-                  size="$5"
-                  hoverTheme
-                  pressTheme
-                  icon={<Twitter />}
-                  alignItems="center"
-                  onPress={() => null}
-                  title="Twitter"
-                  subTitle={socialData?.twitter}
-                />
+                <Link
+                  href={`http://x.com/${socialData.twitter}`}
+                  target="_blank"
+                  asChild
+                >
+                  <ListItem
+                    size="$5"
+                    hoverTheme
+                    pressTheme
+                    icon={<Twitter />}
+                    alignItems="center"
+                    onPress={() => null}
+                    title="Twitter"
+                    subTitle={socialData?.twitter}
+                  />
+                </Link>
               </YGroup.Item>
             )}
           </YGroup>

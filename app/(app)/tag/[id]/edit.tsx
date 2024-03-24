@@ -3,11 +3,11 @@ import EditTagModule from '@lib/modules/tags/edit_tag.module';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function EditTagScreen() {
-  const { tagUid } = useLocalSearchParams<{ tagUid: string }>();
+  const { id } = useLocalSearchParams();
 
   return (
     <Screen>
-      <EditTagModule tagUid={tagUid} />
+      <EditTagModule tagUid={id as string} />
     </Screen>
   );
 }

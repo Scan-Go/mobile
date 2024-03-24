@@ -23,9 +23,9 @@ export default function TagsScreen() {
     return (
       <Link
         href={{
-          pathname: '/(app)/edit_tag',
+          pathname: '/(app)/tag/[id]/edit',
           params: {
-            tagUid: item.id
+            id: item.id
           }
         }}
       >
