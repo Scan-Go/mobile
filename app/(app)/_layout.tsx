@@ -19,6 +19,10 @@ export default function AppLayout() {
         options={{ presentation: 'modal' }}
       />
       <Stack.Screen
+        name="edit_tag"
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen
         name="settings"
         options={{ presentation: 'modal', title: 'Inställningar' }}
       />

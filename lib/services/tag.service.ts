@@ -29,6 +29,22 @@ class TagService extends BaseService {
 
     return data;
   }
+  async fetchTagCore(tagUid: string): Promise<ITag> {
+    const { data, error } = await this.client
+      .from('tags')
+      .select()
+      .eq('id', tagUid)
+      .eq('isActive', true)
+      .limit(1)
+      .returns<ITag>()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
 
   async fetchTags(userUid: string): Promise<ITag[]> {
     const { data, error } = await this.client

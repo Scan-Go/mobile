@@ -6,6 +6,7 @@ import { ITag } from '@lib/models/tag.model';
 import { tagService } from '@lib/services/tag.service';
 import { useAuthStore } from '@lib/store/auth.store';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { Link } from 'expo-router';
 import React, { Suspense, useCallback } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { Spinner } from 'tamagui';
@@ -20,13 +21,22 @@ export default function TagsScreen() {
 
   const renderItem = useCallback(({ item }: { item: ITag }) => {
     return (
-      <TagCard
-        created_at={item.created_at}
-        isActive={item.isActive}
-        name={item.name!}
-        note={item.note!}
-        key={item.id}
-      />
+      <Link
+        href={{
+          pathname: '/(app)/edit_tag',
+          params: {
+            tagUid: item.id
+          }
+        }}
+      >
+        <TagCard
+          created_at={item.created_at}
+          isActive={item.isActive}
+          name={item.name!}
+          note={item.note!}
+          key={item.id}
+        />
+      </Link>
     );
   }, []);
 
