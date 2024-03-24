@@ -41,7 +41,7 @@ type UpdateNoteSchemaTypes = z.infer<typeof updateNoteSchema>;
 
 export default function EditNotePage() {
   const theme = useTheme();
-  const { noteId } = useLocalSearchParams<{ noteId: string }>();
+  const { id: noteId } = useLocalSearchParams<{ id: string }>();
   const navigation = useNavigation();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const user = useAuthStore((state) => state.user);

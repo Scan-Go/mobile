@@ -77,8 +77,8 @@ export default function HomeNotesModule() {
         switch (selectedIndex) {
           case editButtonIndex:
             router.push({
-              pathname: '/(app)/edit_note',
-              params: { noteId: item.id }
+              pathname: '/(app)/note/[id]/edit',
+              params: { id: item.id }
             });
             break;
 
