@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@lib/components/button';
 import TagCard from '@lib/components/tags/tag_card.component';
+import { useAlertDialog } from '@lib/hooks/useAlertDialog';
 import { ICreateNewNote, INote } from '@lib/models/note.model';
 import { QueryKeys } from '@lib/models/query_keys.model';
 import { ITag } from '@lib/models/tag.model';
@@ -10,7 +11,7 @@ import { tagService } from '@lib/services/tag.service';
 import { useAuthStore } from '@lib/store/auth.store';
 import { PostgrestError } from '@supabase/supabase-js';
 import { useToastController } from '@tamagui/toast';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { produce } from 'immer';
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
@@ -23,6 +24,11 @@ import { z } from 'zod';
 
 interface ITagSelectProps {
   onSelect: (id: string) => void;
+  data: ITag[];
+}
+
+interface IInnerFrameProps {
+  dismissDialog: () => void;
 }
 
 const newNoteSchema = z.object({
@@ -33,21 +39,14 @@ const newNoteSchema = z.object({
 
 type NewNoteSchemaTypes = z.infer<typeof newNoteSchema>;
 
-function TagSelect({ onSelect }: ITagSelectProps) {
+function TagSelect({ onSelect, data }: ITagSelectProps) {
   const { width } = useWindowDimensions();
-  const user = useAuthStore((state) => state.user);
-  const query = useQuery<ITag[], PostgrestError>({
-    queryKey: [QueryKeys.Tags, user!.id],
-    queryFn: () => tagService.fetchTags(user!.id)
-  });
 
   useEffect(() => {
-    if (query.isSuccess) {
-      if (query.data.length === 1) {
-        onSelect(query.data[0].id);
-      }
+    if (data.length === 1) {
+      onSelect(data[0].id);
     }
-  }, [query]);
+  }, []);
 
   return (
     <Suspense fallback={<Spinner />}>
@@ -56,12 +55,12 @@ function TagSelect({ onSelect }: ITagSelectProps) {
         width={width}
         height={250}
         mode="parallax"
-        data={query.data!}
+        data={data}
         scrollAnimationDuration={1000}
         pagingEnabled
         snapEnabled
         defaultIndex={0}
-        onSnapToItem={(index) => onSelect(query.data![index].id)}
+        onSnapToItem={(index) => onSelect(data[index].id)}
         renderItem={({ item }) => (
           <TagCard
             key={item.id}
@@ -76,13 +75,24 @@ function TagSelect({ onSelect }: ITagSelectProps) {
   );
 }
 
-function InnerFrame() {
+function InnerFrame({ dismissDialog }: IInnerFrameProps) {
   const user = useAuthStore((state) => state.user);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const { show } = useToastController();
   const { control, handleSubmit } = useForm<NewNoteSchemaTypes>({
     resolver: zodResolver(newNoteSchema)
   });
+
+  const tagQuery = useSuspenseQuery<ITag[], PostgrestError>({
+    queryKey: [QueryKeys.Tags, user!.id],
+    queryFn: () => tagService.fetchTags(user!.id)
+  });
+
+  useEffect(() => {
+    if (tagQuery.data && tagQuery.data.length < 1) {
+      dismissDialog();
+    }
+  }, [tagQuery.data]);
 
   const noteMutation = useMutation<INote, void, ICreateNewNote>({
     mutationFn: (data) => noteService.addNewNote(data),
@@ -116,11 +126,18 @@ function InnerFrame() {
 
   return (
     <View p="$5">
-      <Controller
-        control={control}
-        name="tagId"
-        render={({ field: { onChange } }) => <TagSelect onSelect={onChange} />}
-      />
+      <Suspense fallback={<Spinner />}>
+        <Controller
+          control={control}
+          name="tagId"
+          render={({ field: { onChange } }) => (
+            <TagSelect
+              data={tagQuery.data!}
+              onSelect={onChange}
+            />
+          )}
+        />
+      </Suspense>
 
       <YStack gap="$5">
         <Fieldset
@@ -188,6 +205,16 @@ function InnerFrame() {
 
 export default function NewNoteModule() {
   const [open, setOpen] = useState(false);
+  const { showAlertDialog } = useAlertDialog();
+
+  const dismissDialog = useCallback(() => {
+    setOpen(false);
+
+    showAlertDialog({
+      title: 'Du har inga registrerade etiketter.',
+      desc: 'Var snäll prova igen senare.'
+    });
+  }, []);
 
   return (
     <>
@@ -213,7 +240,7 @@ export default function NewNoteModule() {
         />
         <Sheet.Handle />
         <Sheet.Frame bg="$navigationCardBg">
-          <InnerFrame />
+          <InnerFrame dismissDialog={dismissDialog} />
         </Sheet.Frame>
       </Sheet>
     </>
