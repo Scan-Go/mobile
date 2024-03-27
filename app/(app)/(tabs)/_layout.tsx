@@ -50,7 +50,7 @@ export default function TabLayout() {
                 </Button>
               </Link>
               <Link
-                href="/modal"
+                href="/(app)/profile-settings"
                 asChild
               >
                 <Button bg="$navigationCardBg">
