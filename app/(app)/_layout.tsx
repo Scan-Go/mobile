@@ -15,16 +15,12 @@ export default function AppLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="edit_note"
-        options={{ presentation: 'modal' }}
-      />
-      <Stack.Screen
-        name="edit_tag"
-        options={{ presentation: 'modal' }}
-      />
-      <Stack.Screen
         name="settings"
         options={{ presentation: 'modal', title: 'Inställningar' }}
+      />
+      <Stack.Screen
+        name="profile-settings"
+        options={{ presentation: 'modal', title: 'Profilinställningar' }}
       />
     </Stack>
   );

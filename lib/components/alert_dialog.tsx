@@ -17,7 +17,7 @@ import {
 export interface IFireAlertDialog {
   title: string;
   desc?: string;
-  actions: ReactElement<AlertDialogActionProps>[];
+  actions?: ReactElement<AlertDialogActionProps>[];
 }
 
 export interface IAlertDialogRef {
@@ -92,7 +92,7 @@ function _AlertDialog(_: any, ref: any) {
                 justifyContent="flex-end"
               >
                 <AlertDialog.Cancel asChild>
-                  <Button onPress={() => setIsOpen(false)}>Cancel</Button>
+                  <Button onPress={() => setIsOpen(false)}>Okej</Button>
                 </AlertDialog.Cancel>
 
                 {actions?.map((Action, index) => Action)}
