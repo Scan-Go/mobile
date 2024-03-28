@@ -8,7 +8,7 @@ import { useNavigation } from 'expo-router';
 import { Suspense, useLayoutEffect } from 'react';
 import { Spinner } from 'tamagui';
 
-export default function TabTwoScreen() {
+export default function ProfileScreen() {
   const navigation = useNavigation();
   const user = useAuthStore((state) => state.user);
 

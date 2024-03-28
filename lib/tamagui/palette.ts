@@ -24,7 +24,6 @@ export const colorPalette_Light = [
 
 export const colorPalette_Dark = [
   darkTransparent,
-  'hsl(165, 25%, 15%)',
   'hsl(165, 64%, 81%)',
   'hsl(165, 63%, 76%)',
   'hsl(165, 62%, 71%)',

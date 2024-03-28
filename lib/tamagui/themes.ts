@@ -36,13 +36,13 @@ const themesBuilder = createThemeBuilder()
       navigationBg: -2,
       navigationCardBg: -2,
       primary: 7,
-      background: 1,
-      backgroundHover: 2,
+      background: -3,
+      backgroundHover: -5,
       backgroundPress: 4,
       backgroundFocus: 5,
       backgroundStrong: -2,
       backgroundTransparent: -0,
-      color: -7,
+      color: -9,
       colorHover: 2,
       colorPress: 1,
       colorFocus: -9,
@@ -76,7 +76,7 @@ const themesBuilder = createThemeBuilder()
       mask: 'soften',
       override: {
         background: -5,
-        color: -1
+        color: -5
       }
     },
     surface: {

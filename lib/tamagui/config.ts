@@ -18,5 +18,6 @@ declare module 'tamagui' {
 declare module '@tamagui/toast' {
   interface CustomData {
     toastType?: 'error' | 'success' | 'warning';
+    isLoading?: boolean;
   }
 }

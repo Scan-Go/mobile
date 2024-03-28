@@ -12,7 +12,6 @@ import {
   Image,
   ListItem,
   Separator,
-  Spinner,
   Text,
   View,
   YGroup,
@@ -58,10 +57,10 @@ export default function ProfileView({
         >
           {profileData.profileImageUrl ? (
             <>
-              <Avatar.Image src={require('@assets/images/no_avatar.svg')} />
+              <Avatar.Image source={{ uri: profileData.profileImageUrl }} />
 
               <Avatar.Fallback>
-                <Spinner />
+                <Image source={require('@assets/images/no_avatar.svg')} />
               </Avatar.Fallback>
             </>
           ) : (

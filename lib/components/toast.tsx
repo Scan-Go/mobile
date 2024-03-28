@@ -1,20 +1,20 @@
-import { Toast as IToast, useToastState } from "@tamagui/toast";
-import { useMemo } from "react";
-import { YStack } from "tamagui";
+import { Toast as IToast, useToastState } from '@tamagui/toast';
+import { useMemo } from 'react';
+import { Spinner, XStack, YStack } from 'tamagui';
 
 const Toast = () => {
   const currentToast = useToastState();
   const toastBgColor = useMemo(() => {
     switch (currentToast?.toastType) {
-      case "error":
-        return "red";
-      case "success":
-        return "green";
-      case "warning":
-        return "orange";
+      case 'error':
+        return 'red';
+      case 'success':
+        return 'green';
+      case 'warning':
+        return 'orange';
 
       default:
-        return "blue";
+        return 'lightblue';
     }
   }, [currentToast]);
 
@@ -32,14 +32,21 @@ const Toast = () => {
       viewportName={currentToast.viewportName}
       bg={toastBgColor}
     >
-      <YStack>
-        <IToast.Title color="white">{currentToast.title}</IToast.Title>
-        {!!currentToast.message && (
-          <IToast.Description color="white">
-            {currentToast.message}
-          </IToast.Description>
-        )}
-      </YStack>
+      {currentToast.isLoading ? (
+        <XStack gap="$5">
+          <Spinner />
+          <IToast.Title color="white">{currentToast.title}</IToast.Title>
+        </XStack>
+      ) : (
+        <YStack>
+          <IToast.Title color="white">{currentToast.title}</IToast.Title>
+          {!!currentToast.message && (
+            <IToast.Description color="white">
+              {currentToast.message}
+            </IToast.Description>
+          )}
+        </YStack>
+      )}
     </IToast>
   );
 };

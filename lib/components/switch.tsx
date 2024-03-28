@@ -8,6 +8,12 @@ const AppSwitchFrame = styled(SwitchFrame, {
         backgroundColor: '$backgroundStrong',
         borderWidth: 2,
         borderColor: '$backgroundStrong'
+      },
+      true: {
+        borderRadius: 1000,
+        backgroundColor: '$backgroundStrong',
+        borderWidth: 2,
+        borderColor: '$backgroundStrong'
       }
     },
 
