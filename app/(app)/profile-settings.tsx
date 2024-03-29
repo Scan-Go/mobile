@@ -2,6 +2,7 @@ import Screen from '@lib/components/screen';
 import { QueryKeys } from '@lib/models/query_keys.model';
 import { IUser } from '@lib/models/user.model';
 import ProfilePictureSection from '@lib/modules/profile-settings/ProfilePictureSection';
+import ProfileSection from '@lib/modules/profile-settings/ProfileSection';
 import { profileService } from '@lib/services/profile.service';
 import { useAuthStore } from '@lib/store/auth.store';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -12,13 +13,15 @@ export default function ProfileSettingsPage() {
   const user = useAuthStore((state) => state.user);
   const profileQuery = useSuspenseQuery<IUser>({
     queryKey: [QueryKeys.ProfileWithRelations, user?.id],
-    queryFn: () => profileService.fetchProfile(user!.id)
+    queryFn: () => profileService.fetchProfile(user!.id),
+    networkMode: 'offlineFirst'
   });
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Screen>
+      <Screen gap="$5">
         <ProfilePictureSection user={profileQuery.data} />
+        <ProfileSection user={profileQuery.data} />
       </Screen>
     </Suspense>
   );
