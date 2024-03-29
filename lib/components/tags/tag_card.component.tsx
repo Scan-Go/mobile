@@ -24,6 +24,7 @@ export default function TagCard({ created_at, isActive, name, note }: IProps) {
       animation="bouncy"
       hoverStyle={{ scale: 0.98 }}
       pressStyle={{ scale: 0.98 }}
+      w="100%"
     >
       <LinearGradient
         colors={['#642401', '#064a7d']}

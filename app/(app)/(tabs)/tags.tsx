@@ -22,6 +22,7 @@ export default function TagsScreen() {
   const renderItem = useCallback(({ item }: { item: ITag }) => {
     return (
       <Link
+        asChild
         href={{
           pathname: '/(app)/tag/[id]/edit',
           params: {
@@ -54,6 +55,7 @@ export default function TagsScreen() {
     <Suspense fallback={<Spinner />}>
       <Screen>
         <FlatList
+          style={{ flex: 1, width: '100%' }}
           refreshControl={
             <RefreshControl
               refreshing={queryTags.isPending}

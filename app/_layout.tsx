@@ -32,13 +32,13 @@ export default function RootLayout() {
   }, [isInitialized]);
 
   useEffect(() => {
-    if ((interLoaded || interError) && isInitialized) {
+    if ((interLoaded && !interError) || isInitialized) {
       // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
       SplashScreen.hideAsync();
     }
   }, [interLoaded, interError, isInitialized]);
 
-  if (!interLoaded && !interError && !isInitialized) {
+  if (!interLoaded || interError || !isInitialized) {
     return null;
   }
 
