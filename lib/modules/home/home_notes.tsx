@@ -6,6 +6,7 @@ import { QueryKeys } from '@lib/models/query_keys.model';
 import { queryClient } from '@lib/providers';
 import { noteService } from '@lib/services/note.service';
 import { useAuthStore } from '@lib/store/auth.store';
+import { ActionSheetStyles } from '@lib/styles/ActionSheetStyles';
 import { PostgrestError } from '@supabase/supabase-js';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -13,12 +14,13 @@ import { router } from 'expo-router';
 import { produce } from 'immer';
 import { Suspense, useCallback } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
-import { Spinner, View, YStack } from 'tamagui';
+import { Spinner, View, YStack, useTheme } from 'tamagui';
 import { DeleteMutationVariables } from './home_notes.types';
 import NewNoteDialogModule from './new_note_dialog.module';
 
 export default function HomeNotesModule() {
   const user = useAuthStore((state) => state.user);
+  const theme = useTheme();
   const { showActionSheetWithOptions } = useActionSheet();
   const { show } = useToastController();
 
@@ -71,7 +73,8 @@ export default function HomeNotesModule() {
         title: item.content,
         options,
         cancelButtonIndex,
-        destructiveButtonIndex
+        destructiveButtonIndex,
+        ...ActionSheetStyles(theme)
       },
       async (selectedIndex) => {
         switch (selectedIndex) {

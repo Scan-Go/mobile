@@ -224,7 +224,7 @@ export default function NewNoteModule() {
       <Sheet
         open={open}
         modal
-        snapPoints={[50, 75]}
+        snapPoints={[50, 75, 100]}
         snapPointsMode="percent"
         dismissOnSnapToBottom
         zIndex={100_000}
