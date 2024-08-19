@@ -11,7 +11,9 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "prepare": "husky",
-    "supa:types": "npx supabase gen types typescript --local > lib/models/supabase.ts"
+    "supa:types": "npx supabase gen types typescript --local > lib/models/supabase.ts",
+    "generate-themes": "tamagui generate-themes ./lib/tamagui/themes.ts ./lib/tamagui/themes-output.ts",
+    "postinstall": "bun generate-themes"
   },
   "jest": {
     "preset": "jest-expo"
@@ -28,6 +30,7 @@
     "@react-navigation/native": "^6.0.2",
     "@supabase/supabase-js": "^2.39.8",
     "@tamagui/animations-moti": "^1.108.4",
+    "@tamagui/cli": "^1.108.4",
     "@tamagui/config": "^1.108.4",
     "@tamagui/lucide-icons": "^1.108.4",
     "@tamagui/metro-plugin": "^1.108.4",

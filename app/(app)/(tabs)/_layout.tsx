@@ -45,7 +45,7 @@ export default function TabLayout() {
                 href="/(app)/settings"
                 asChild
               >
-                <Button bg="$navigationCardBg">
+                <Button chromeless>
                   <Settings />
                 </Button>
               </Link>
@@ -53,7 +53,7 @@ export default function TabLayout() {
                 href="/(app)/profile-settings"
                 asChild
               >
-                <Button bg="$navigationCardBg">
+                <Button chromeless>
                   <Edit3 />
                 </Button>
               </Link>

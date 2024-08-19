@@ -1,6 +1,6 @@
 import { config as configBase } from '@tamagui/config/v2-reanimated';
 import { createTamagui } from 'tamagui';
-import themes from './themes';
+import * as themes from './themes-output';
 
 const config = createTamagui({
   ...configBase,

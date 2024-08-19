@@ -87,7 +87,7 @@ export default function ProfileView({
 
         <View
           p="$3"
-          bg="$background"
+          bg="$backgroundHover"
           py="$5"
           borderRadius="$4"
           w="100%"
@@ -101,7 +101,7 @@ export default function ProfileView({
           </Text>
         </View>
         <View
-          bg="$background"
+          bg="$backgroundHover"
           p="$3"
           py="$5"
           borderRadius="$4"
