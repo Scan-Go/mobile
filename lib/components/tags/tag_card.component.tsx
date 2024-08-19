@@ -1,7 +1,6 @@
 import BackgroundSVG from '@assets/images/card_bg.svg';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
-import { StyleSheet } from 'react-native';
 import { Paragraph, Text, View, XStack, YStack, styled } from 'tamagui';
 import { LinearGradient } from 'tamagui/linear-gradient';
 
@@ -25,12 +24,12 @@ export default function TagCard({ created_at, isActive, name, note }: IProps) {
       hoverStyle={{ scale: 0.98 }}
       pressStyle={{ scale: 0.98 }}
       w="100%"
+      flex={1}
     >
       <LinearGradient
         colors={['#642401', '#064a7d']}
         start={[0, 1]}
         end={[0, 0]}
-        style={styles.background}
         borderRadius="$6"
       >
         <BackgroundSVG style={{ zIndex: 2 }} />
@@ -77,9 +76,3 @@ export default function TagCard({ created_at, isActive, name, note }: IProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    zIndex: -1
-  }
-});

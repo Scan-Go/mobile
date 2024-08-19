@@ -42,35 +42,34 @@ type NewNoteSchemaTypes = z.infer<typeof newNoteSchema>;
 function TagSelect({ onSelect, data }: ITagSelectProps) {
   const { width } = useWindowDimensions();
 
-  useEffect(() => {
-    if (data.length === 1) {
-      onSelect(data[0].id);
-    }
-  }, []);
+  if (data.length === 1) {
+    onSelect(data[0].id);
+  }
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Carousel
-        loop={false}
-        width={width}
-        height={250}
-        mode="parallax"
-        data={data}
-        scrollAnimationDuration={1000}
-        pagingEnabled
-        snapEnabled
-        defaultIndex={0}
-        onSnapToItem={(index) => onSelect(data[index].id)}
-        renderItem={({ item }) => (
-          <TagCard
-            key={item.id}
-            name={item.name!}
-            created_at={item.created_at}
-            isActive={item.isActive}
-            note={item.note!}
-          />
-        )}
-      />
+      <View flex={1}>
+        <Carousel
+          loop={false}
+          width={width}
+          height={200}
+          mode="parallax"
+          data={data}
+          scrollAnimationDuration={1000}
+          snapEnabled
+          defaultIndex={0}
+          onSnapToItem={(index) => onSelect(data[index].id)}
+          renderItem={({ item }) => (
+            <TagCard
+              key={item.id}
+              name={item.name!}
+              created_at={item.created_at}
+              isActive={item.isActive}
+              note={item.note!}
+            />
+          )}
+        />
+      </View>
     </Suspense>
   );
 }
@@ -125,7 +124,10 @@ function InnerFrame({ dismissDialog }: IInnerFrameProps) {
   }, []);
 
   return (
-    <View p="$5">
+    <View
+      p="$5"
+      flex={1}
+    >
       <Suspense fallback={<Spinner />}>
         <Controller
           control={control}
