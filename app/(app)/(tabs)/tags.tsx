@@ -8,8 +8,8 @@ import { useAuthStore } from '@lib/store/auth.store';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import React, { Suspense, useCallback } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
-import { Spinner } from 'tamagui';
+import { FlatList, Pressable, RefreshControl } from 'react-native';
+import { Spinner, YStack } from 'tamagui';
 
 export default function TagsScreen() {
   const user = useAuthStore((state) => state.user);
@@ -30,13 +30,15 @@ export default function TagsScreen() {
           }
         }}
       >
-        <TagCard
-          created_at={item.created_at}
-          isActive={item.isActive}
-          name={item.name!}
-          note={item.note!}
-          key={item.id}
-        />
+        <Pressable>
+          <TagCard
+            created_at={item.created_at}
+            isActive={item.isActive}
+            name={item.name!}
+            note={item.note!}
+            key={item.id}
+          />
+        </Pressable>
       </Link>
     );
   }, []);
@@ -64,6 +66,7 @@ export default function TagsScreen() {
           }
           data={queryTags.data}
           ListEmptyComponent={emptyBlock}
+          ItemSeparatorComponent={() => <YStack my="$2" />}
           renderItem={renderItem}
         />
       </Screen>

@@ -56,7 +56,6 @@ export default function EditTagModule({ tagUid }: IProps) {
       });
 
       queryClient.setQueryData<ITag[]>([QueryKeys.Tags, user?.id], (v) => {
-        console.log(v);
         if (v && v.length > 0) {
           const updatedState = produce(v, (draft) => {
             const index = draft.findIndex((e) => e.id === tagUid);
@@ -82,7 +81,7 @@ export default function EditTagModule({ tagUid }: IProps) {
       setValue('isActive', tagQuery.data?.isActive ?? undefined);
       setValue('note', tagQuery.data?.note ?? undefined);
     }
-  }, [tagQuery.data]);
+  }, [tagQuery]);
 
   useLayoutEffect(() => {
     if (tagQuery.isSuccess) {
@@ -90,7 +89,7 @@ export default function EditTagModule({ tagUid }: IProps) {
         title: tagQuery.data!.name
       });
     }
-  }, [tagQuery.data]);
+  }, [tagQuery]);
 
   const onSubmitForm = useCallback(async (inputs: EditTagFormTypes) => {
     try {
