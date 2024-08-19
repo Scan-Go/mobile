@@ -55,7 +55,7 @@ export default function Providers({ children }: PropsWithChildren) {
         client={queryClient}
         persistOptions={{ persister: asyncStoragePersister }}
       >
-        <ActionSheetProvider useCustomActionSheet>
+        <ActionSheetProvider>
           <TamaguiProvider
             config={config}
             defaultTheme={colorScheme as any}
