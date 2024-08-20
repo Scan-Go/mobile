@@ -4,7 +4,6 @@ import { QueryKeys } from '@lib/models/query_keys.model';
 import { IUserWithPhoneAndSocial } from '@lib/models/user.model';
 import { profileService } from '@lib/services/profile.service';
 import { storageService } from '@lib/services/storage.service';
-import { config } from '@tamagui/config/v2-reanimated';
 import { Edit3 } from '@tamagui/lucide-icons';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -42,22 +41,25 @@ export default function ProfilePictureSection({ user }: ISectionProps) {
     }
   });
 
-  const onSave = useCallback(async () => {
-    if (!selectedImage) return;
-    setIsLoading(true);
+  const onSave = useCallback(
+    async (selectedImage: ImagePicker.ImagePickerAsset) => {
+      if (!selectedImage) return;
+      setIsLoading(true);
 
-    const ref = await storageService.uploadAvatar(user!.id, selectedImage);
+      const ref = await storageService.uploadAvatar(user!.id, selectedImage);
 
-    if (ref) {
-      const photoURL = storageService.getAvatarURL(ref.path);
+      if (ref) {
+        const photoURL = storageService.getAvatarURL(ref.path);
 
-      await mutation.mutateAsync({ profileImageUrl: photoURL });
+        await mutation.mutateAsync({ profileImageUrl: photoURL });
 
-      toast.show('Sparat', { toastType: 'success' });
-    }
+        toast.show('Sparat', { toastType: 'success' });
+      }
 
-    setIsLoading(false);
-  }, [selectedImage]);
+      setIsLoading(false);
+    },
+    []
+  );
 
   const onSelect = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -73,7 +75,7 @@ export default function ProfilePictureSection({ user }: ISectionProps) {
       if (result.assets && result.assets.length === 1) {
         setSelectedImage(result.assets[0]);
 
-        await onSave();
+        await onSave(result.assets[0]);
       }
     }
   }, []);
@@ -127,13 +129,12 @@ export default function ProfilePictureSection({ user }: ISectionProps) {
 
           <Avatar.Fallback>
             <NO_AVATAR
-              width={config.tokens.size[8].val}
-              height={config.tokens.size[8].val}
+              width="$10"
+              height="$10"
             />
           </Avatar.Fallback>
         </Avatar>
         <View
-          theme="subtle"
           bg="$background"
           p="$2"
           borderRadius="$12"
@@ -148,7 +149,6 @@ export default function ProfilePictureSection({ user }: ISectionProps) {
           />
         </View>
       </View>
-
       <Card.Footer
         padded
         justifyContent="center"
