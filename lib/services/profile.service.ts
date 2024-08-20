@@ -70,6 +70,20 @@ class ProfileService extends BaseService {
     return data;
   }
 
+  async updatePhoneNumber(userUid: string, number: string) {
+    const { error } = await this.client.from('phone_numbers').upsert(
+      {
+        id: userUid,
+        number: number
+      },
+      { onConflict: 'id' }
+    );
+
+    if (error) {
+      throw error;
+    }
+  }
+
   async fetchProfile(userUid: string) {
     const profileQuery = this.client
       .from('profiles')
