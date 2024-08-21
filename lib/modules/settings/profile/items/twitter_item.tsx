@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@lib/components/button';
-import AppSheet from '@lib/components/sheet';
+import AppDialog from '@lib/components/dialog';
 import { QueryKeys } from '@lib/models/query_keys.model';
 import {
   IUserPrivateSocialMediaAccounts,
@@ -13,7 +13,7 @@ import { ChevronRight, Twitter } from '@tamagui/lucide-icons';
 import { useToastController } from '@tamagui/toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { produce } from 'immer';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Fieldset,
@@ -35,7 +35,6 @@ type TwitterFormType = z.infer<typeof twitterSchema>;
 type IUpdateTwitterMutationVars = IUserPrivateSocialMediaAccounts;
 
 export default function TwitterItem() {
-  const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const { show: showToast } = useToastController();
 
@@ -76,10 +75,6 @@ export default function TwitterItem() {
     }
   }, [query]);
 
-  const toggleOpen = useCallback(() => {
-    setOpen((state) => !state);
-  }, []);
-
   const onSubmit = useCallback(async (inputs: TwitterFormType) => {
     try {
       await mutation.mutateAsync({
@@ -88,7 +83,6 @@ export default function TwitterItem() {
         updated_at: new Date().toISOString()
       });
 
-      setOpen(false);
       showToast('Uppdaterat!', { toastType: 'success' });
     } catch (error) {
       showToast('Error', { toastType: 'error' });
@@ -97,22 +91,22 @@ export default function TwitterItem() {
 
   return (
     <>
-      <ListItem
-        size="$5"
-        onPressIn={toggleOpen}
-        hoverTheme
-        pressTheme
-        icon={<Twitter />}
-        alignItems="center"
-        onPress={() => null}
-        title="Twitter"
-        iconAfter={ChevronRight}
-      />
-
-      <AppSheet
-        isOpen={open}
-        onOpenChange={toggleOpen}
-        snapPointsAsPercent={[25]}
+      <AppDialog
+        trigger={
+          <ListItem
+            size="$5"
+            hoverTheme
+            pressTheme
+            icon={<Twitter />}
+            alignItems="center"
+            onPress={() => null}
+            title="X"
+            iconAfter={ChevronRight}
+          />
+        }
+        title="X"
+        description="Bytt ditt X användarnamn"
+        snapPointsAsPercent={[50, 75]}
       >
         <Form
           onSubmit={handleSubmit(onSubmit)}
@@ -152,7 +146,7 @@ export default function TwitterItem() {
             </Button>
           </Form.Trigger>
         </Form>
-      </AppSheet>
+      </AppDialog>
     </>
   );
 }

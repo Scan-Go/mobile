@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 import { Sheet } from 'tamagui';
 
 interface IProps extends PropsWithChildren {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   snapPointsAsPercent?: number[];
 }
 export default function AppSheet({
@@ -24,6 +24,7 @@ export default function AppSheet({
       zIndex={100_000}
       animation="medium"
       unmountChildrenWhenHidden
+      moveOnKeyboardChange
     >
       <Sheet.Overlay
         animation="lazy"
