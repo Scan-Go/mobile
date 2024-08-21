@@ -18,7 +18,7 @@ export default function TabLayout() {
           title: 'Hem',
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
-            <Home color={focused ? '$colorFocus' : '$color'} />
+            <Home color={focused ? '$accentColor' : '$color'} />
           )
         }}
       />
@@ -28,7 +28,7 @@ export default function TabLayout() {
           title: 'Etiketter',
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
-            <Tags color={focused ? '$colorFocus' : '$color'} />
+            <Tags color={focused ? '$accentColor' : '$color'} />
           )
         }}
       />
@@ -37,7 +37,7 @@ export default function TabLayout() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
-            <User color={focused ? '$colorFocus' : '$color'} />
+            <User color={focused ? '$accentColor' : '$color'} />
           ),
           headerRight: () => (
             <XStack>
