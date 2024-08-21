@@ -5,7 +5,12 @@ import { authService } from '@lib/services/auth.service';
 import { useAuthStore } from '@lib/store/auth.store';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-import '../tamagui-web.css';
+import { Platform } from 'react-native';
+
+if (Platform.OS === 'web') {
+  require('@tamagui/core/reset.css');
+  require('../tamagui-web.css');
+}
 
 export {
   // Catch any errors thrown by the Layout component.
