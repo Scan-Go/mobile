@@ -70,7 +70,7 @@ export default function ProfileView({
             )}
           </Avatar>
           <H2>{`${profileData.firstName} ${profileData.lastName}`}</H2>
-          <Text>{profileData.bio}</Text>
+          {profileData.bio && <Text>{profileData.bio}</Text>}
         </YStack>
 
         {showSendMessageBtn &&
@@ -85,20 +85,23 @@ export default function ProfileView({
             </Button>
           )}
 
-        <View
-          bg="$backgroundFocus"
-          borderRadius="$4"
-          p="$5"
-          w="100%"
-        >
-          <Text>{bioText}</Text>
-          <Text
-            fontSize="$5"
-            color="$colorFocus"
+        {profileData.bio && (
+          <View
+            bg="$backgroundFocus"
+            borderRadius="$4"
+            p="$5"
+            w="100%"
           >
-            {bioContent}
-          </Text>
-        </View>
+            <Text>{bioText}</Text>
+            <Text
+              fontSize="$5"
+              color="$colorFocus"
+            >
+              {bioContent}
+            </Text>
+          </View>
+        )}
+
         <View
           bg="$backgroundFocus"
           borderRadius="$4"
