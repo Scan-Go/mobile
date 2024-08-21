@@ -86,10 +86,9 @@ export default function ProfileView({
           )}
 
         <View
-          p="$3"
-          bg="$backgroundHover"
-          py="$5"
+          bg="$backgroundFocus"
           borderRadius="$4"
+          p="$5"
           w="100%"
         >
           <Text>{bioText}</Text>
@@ -101,10 +100,9 @@ export default function ProfileView({
           </Text>
         </View>
         <View
-          bg="$backgroundHover"
-          p="$3"
-          py="$5"
+          bg="$backgroundFocus"
           borderRadius="$4"
+          p="$5"
           w="100%"
           justifyContent="center"
           alignItems="center"
@@ -163,7 +161,7 @@ export default function ProfileView({
                       icon={<Twitter />}
                       alignItems="center"
                       onPress={() => null}
-                      title="Twitter"
+                      title="X"
                       subTitle={socialData?.twitter}
                     />
                   </Link>
