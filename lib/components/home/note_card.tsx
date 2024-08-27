@@ -21,10 +21,11 @@ export default function NoteCard({ content, tag, expire_at, onPress }: IProps) {
       onPress={onPress}
       borderRadius="$5"
       p="$5"
-      bg="$backgroundHover"
+      bg="$backgroundFocus"
       cursor="pointer"
       animation="bouncy"
-      hoverStyle={{ scale: 0.98, bg: '$backgroundHover' }}
+      hoverStyle={{ scale: 0.98, bg: '$backgroundPress' }}
+      pressStyle={{ scale: 0.98, bg: '$backgroundPress' }}
     >
       <YStack
         gap="$3"
