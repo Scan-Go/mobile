@@ -1,4 +1,4 @@
-import { config as configBase } from '@tamagui/config/v2-reanimated';
+import { config as configBase } from '@tamagui/config/v3';
 import { createTamagui } from 'tamagui';
 import * as themes from './themes-output';
 
