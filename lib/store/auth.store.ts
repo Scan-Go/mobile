@@ -1,8 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { User } from "@supabase/supabase-js";
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User } from '@supabase/supabase-js';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
 export type AuthStoreState = {
   isInitialized: boolean;
@@ -12,7 +12,8 @@ export type AuthStoreState = {
 };
 
 type Action = {
-  updateUser: (state: Pick<AuthStoreState, "isSignedIn" | "user">) => void;
+  updateUser: (state: Pick<AuthStoreState, 'isSignedIn' | 'user'>) => void;
+  signOut: () => void;
 };
 
 export const useAuthStore = create<AuthStoreState & Action>()(
@@ -28,10 +29,17 @@ export const useAuthStore = create<AuthStoreState & Action>()(
           s.isSignedIn = state.isSignedIn;
         });
       },
+      signOut() {
+        set((s) => {
+          s.user = undefined;
+          s.isSignedIn = false;
+          s.signingIn = false;
+        });
+      }
     })),
     {
-      name: "auth",
-      storage: createJSONStorage(() => AsyncStorage),
+      name: 'auth',
+      storage: createJSONStorage(() => AsyncStorage)
     }
   )
 );
