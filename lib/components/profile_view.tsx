@@ -6,11 +6,14 @@ import {
 } from '@lib/models/user.model';
 import { Phone, Send, Twitter } from '@tamagui/lucide-icons';
 import { Link } from 'expo-router';
+import { useMemo } from 'react';
+import QRCode from 'react-qr-code';
 import {
   Avatar,
   H2,
   Image,
   ListItem,
+  Paragraph,
   ScrollView,
   Separator,
   Text,
@@ -41,6 +44,10 @@ export default function ProfileView({
   phoneData,
   socialData
 }: IProps) {
+  const qrCodeValue = useMemo(() => {
+    return `${process.env.EXPO_PUBLIC_FRONTEND_URL}/tag/${profileData.id}`;
+  }, []);
+
   return (
     <ScrollView>
       <YStack
@@ -93,12 +100,12 @@ export default function ProfileView({
             w="100%"
           >
             <Text>{bioText}</Text>
-            <Text
-              fontSize="$5"
-              color="$colorFocus"
+            <Paragraph
+              fontSize="$3"
+              color="$color.gray10Light"
             >
               {bioContent}
-            </Text>
+            </Paragraph>
           </View>
         )}
 
@@ -110,11 +117,7 @@ export default function ProfileView({
           justifyContent="center"
           alignItems="center"
         >
-          <Image
-            src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg"
-            w="$13"
-            h="$13"
-          />
+          <QRCode value={qrCodeValue} />
         </View>
         {(socialData || phoneData) && (
           <View
