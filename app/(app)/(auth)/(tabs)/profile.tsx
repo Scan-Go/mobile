@@ -6,6 +6,7 @@ import { useAuthStore } from '@lib/store/auth.store';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useNavigation } from 'expo-router';
 import { Suspense, useLayoutEffect } from 'react';
+import QRCode from 'react-qr-code';
 import { Spinner } from 'tamagui';
 
 export default function ProfileScreen() {
