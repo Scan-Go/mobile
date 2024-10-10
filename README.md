@@ -1,1 +1,14 @@
-note because this is in a monorepo had to remove react, react-dom, and react-native-web deps and change metro.config.js a bit.
+# Scan & GO
+
+### Images
+
+| iOS                                              |                       Web                        |
+| ------------------------------------------------ | :----------------------------------------------: |
+| <img src="git/ios.png" heigth="383" width="158"> | <img src="git/web.png" heigth="383" width="158"> |
+
+### Tech stack
+
+- React Native
+- Tamagui
+- Supabase
+- Zustand
